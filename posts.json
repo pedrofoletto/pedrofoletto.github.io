@@ -1,0 +1,17 @@
+[
+  {
+    "id": "bomberman",
+    "tipo": "artigo",
+    "titulo": "Mini Bomberman em C",
+    "data": "26 JUN 2025",
+    "resumo": "Recriação do clássico jogo Bomberman desenvolvida em linguagem C com renderização em Raylib.",
+    "github": "https://github.com/pedrofoletto/bomberman",
+    "tags": [
+      "projeto",
+      "jogos",
+      "c",
+      "raylib"
+    ],
+    "conteudo": "<p>Este projeto é um clone funcional do clássico jogo Bomberman, desenvolvido em C com a biblioteca Raylib para consolidar lógica de jogos 2D, colisões e controle de estados em tempo real.</p><h3>Principais Mecânicas e Funcionalidades:</h3><ul><li><strong>Movimentação do Personagem</strong>: Controle dinâmico do herói utilizando o teclado (<code class=\"inline-code\">W</code>, <code class=\"inline-code\">A</code>, <code class=\"inline-code\">S</code>, <code class=\"inline-code\">D</code>).</li><li><strong>Mecânica de Bombas</strong>: Inserção de bombas pressionando a <code class=\"inline-code\">Barra de Espaço</code> para explodir obstáculos e derrotar inimigos.</li><li><strong>Estruturação de Fases</strong>: Ferramenta inclusa na pasta <code class=\"inline-code\">tools/</code> para converter mapas em formato texto (<code class=\"inline-code\">.txt</code>) para formato binário (<code class=\"inline-code\">.bin</code>) legível pelo jogo.</li><li><strong>Interface e Navegação</strong>: Telas de menu principal, configurações e pausa dinâmica (<code class=\"inline-code\">ESC</code>).</li></ul><p>O foco do projeto foi trabalhar com manipulação direta de arquivos binários para carregamento de mapas e gerência de loops de eventos clássicos.</p><h3>Arquitetura do Sistema (UML)</h3><pre><code class=\"language-text\">+------------------+         1         +--------------+\n|    GameLoop      | ----------------> |  InputSystem |\n| - running: bool  |                   +--------------+\n| + update()       |                          |\n| + render()       |                          v\n+------------------+         1         +--------------+\n         | --------------------------> |    Player    |\n         |                             | - x, y: int  |\n         |                             | + move()     |\n         |                             | + dropBomb() |\n         |                             +--------------+\n         |                                    |\n         |                                    | posiciona\n         |                                    v\n         |                 1..*        +--------------+\n         +---------------------------> |     Bomb     |\n                                       | - timer: int |\n                                       | + explode()  |\n                                       +--------------+</code></pre><h3>Como Compilar e Executar</h3><p>Certifique-se de ter a biblioteca <strong>Raylib</strong> instalada em seu sistema e execute os seguintes comandos no terminal:</p><pre><code class=\"language-bash\"># Compilar o projeto linkando a Raylib\ngcc -o bomberman src/*.c -lraylib -lGL -lm -lpthread -ldl -lrt -lX11\n\n# Executar o jogo\n./bomberman</code></pre>"
+  }
+]

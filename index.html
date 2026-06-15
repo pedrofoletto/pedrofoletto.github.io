@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedro | Tecnologia Médica & Embarcados</title>
+  <meta name="description" content="Portfólio técnico e blog de Pedro, estudante de Engenharia de Controle e Automação focado na saúde.">
+  
+  <!-- Favicon (Terminal Estilo P) -->
+  <link rel="icon" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-family='Courier New, monospace' font-size='42' font-weight='bold' fill='%23000000'%3E[P]%3C/text%3E%3C/svg%3E">
+  
+  <!-- Fontes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Ícones Phosphor -->
+  <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Ícones Devicon para Linguagens de Programação -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header / Nav -->
+  <header id="main-header">
+    <div class="container nav-container">
+      <nav id="navbar" role="tablist" aria-label="Navegação Principal">
+        <!-- CRIAÇÃO DE NOVA ABA (MENU - SPA): Para adicionar uma aba nova no menu de navegação, copie o botão abaixo e altere o data-target para o ID da sua nova aba (ex: data-target="contato-detalhado") -->
+        <button class="nav-tab-btn active" role="tab" aria-selected="true" aria-controls="tab-portfolio" id="tab-btn-portfolio" data-target="portfolio">[Portfólio]</button>
+        <button class="nav-tab-btn" role="tab" aria-selected="false" aria-controls="tab-blog" id="tab-btn-blog" data-target="blog">[Blog & Simulações]</button>
+      </nav>
+      
+      <div class="header-controls">
+        <button id="theme-switch" class="theme-switch" aria-label="Alternar Tema">
+          <i class="ph ph-moon"></i>
+        </button>
+        <button id="menu-toggle" aria-label="Abrir Menu" aria-expanded="false" aria-controls="navbar">
+          <i class="ph ph-list"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       ABA 1: PORTFÓLIO (INÍCIO, SOBRE, PROJETOS)
+       ========================================================================== */ -->
+  <div id="tab-portfolio" class="tab-content active-tab" role="tabpanel" aria-labelledby="tab-btn-portfolio">
+    
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+      <div class="container hero-container">
+        <div class="hero-profile-avatar">
+          <!-- AJUSTE AQUI: Substitua o src abaixo pelo caminho da sua foto de perfil local (ex: ./assets/sua-foto.jpg) -->
+          <img src="https://placehold.co/96x96/2d3748/ffffff?text=Pedro" alt="Pedro" onerror="this.onerror=null; this.src='https://placehold.co/96x96/2d3748/ffffff?text=P';" />
+        </div>
+        <h1>Oi, eu sou Pedro e sou apaixonado por <br><span class="typewriter-wrapper"><span id="typewriter-text"></span><span class="typewriter-cursor">_</span></span></h1>
+        <p class="hero-lead">
+          Focado no desenvolvimento de tecnologia e automação para a área da saúde.
+        </p>
+        <div class="hero-email-link">
+          <!-- AJUSTE AQUI: Substitua o e-mail abaixo pelo seu e-mail de contato do cabeçalho -->
+          <a href="mailto:pedro@exemplo.com">pedro@exemplo.com</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stack Section -->
+    <section id="stack" class="stack-section">
+      <div class="container">
+        <h2 class="section-title">Minha Stack</h2>
+        
+        <!-- AJUSTE AQUI: Tecnologias que você realmente domina -->
+        <p class="mono-text" style="font-size: 0.9rem; font-weight: bold; margin-top: 10px; color: var(--primary);">[Domínio Principal]</p>
+        <div class="stack-grid" style="margin-top: 12px; margin-bottom: 24px;">
+          <div class="stack-item tech-c" data-tech="C (Programação de Baixo Nível / Domínio)">
+            <i class="devicon-c-plain"></i>
+          </div>
+          <div class="stack-item tech-python" data-tech="Python (Desenvolvimento & Simulações / Domínio)">
+            <i class="devicon-python-plain"></i>
+          </div>
+          <div class="stack-item tech-arduino" data-tech="Arduino / ESP32 (Prototipagem / Domínio)">
+            <i class="devicon-arduino-plain"></i>
+          </div>
+          <div class="stack-item tech-git" data-tech="Git & GitHub (Controle de Versão / Domínio)">
+            <i class="devicon-git-plain"></i>
+          </div>
+        </div>
+
+        <!-- AJUSTE AQUI: Tecnologias que você estuda/explora, mas não possui domínio completo ainda -->
+        <p class="mono-text" style="font-size: 0.9rem; font-weight: bold; color: var(--muted-foreground);">[Estudando / Em Aprendizado]</p>
+        <div class="stack-grid" style="margin-top: 12px;">
+          <div class="stack-item tech-cpp" data-tech="C++ (Programação OO & Sistemas / Estudos)">
+            <i class="devicon-cplusplus-plain"></i>
+          </div>
+          <div class="stack-item tech-julia" data-tech="Julia (Computação Científica / Estudos)">
+            <i class="devicon-julia-plain"></i>
+          </div>
+          <div class="stack-item tech-ada" data-tech="Ada (Sistemas Críticos & Concorrentes / Estudos)">
+            <svg class="ada-logo" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2L3 22h3.5l1.8-4.5h7.4l1.8 4.5H21L12 2zm-2.6 12.5L12 7.7l2.6 6.8H9.4z" />
+            </svg>
+          </div>
+          <div class="stack-item tech-matlab" data-tech="MATLAB (Modelagem & Simulações / Estudos)">
+            <i class="devicon-matlab-plain"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sobre Section -->
+    <section id="sobre" class="about-section">
+      <div class="container">
+        <h2 class="section-title">Sobre Mim</h2>
+        <div class="about-content-layout">
+          <div class="about-text-blocks">
+            <!-- AJUSTE AQUI: Substitua o Lorem Ipsum abaixo pela sua biografia / sobre mim pessoal -->
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <p>
+              Curabitur non nulla ut libero vulputate elementum. Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.
+            </p>
+          </div>
+          
+          <!-- Image Accordion Gallery (Substituiu as Polaroids) -->
+          <!-- AJUSTE AQUI: Para colocar suas fotos, troque a URL no 'src' de cada <img> abaixo pelo caminho local (ex: ./assets/foto.jpg ou URL externa) -->
+          <div class="about-accordion-gallery" role="region" aria-label="Galeria de Fotos do Laboratório">
+            <div class="accordion-item" tabindex="0" role="button" aria-expanded="false" data-index="0">
+              <img src="https://placehold.co/400x450/2d3748/ffffff?text=Instrumentacao" alt="Bancada de desenvolvimento de eletrônica e instrumentação" width="400" height="450" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x450/2d3748/ffffff?text=Erro';" />
+              <div class="accordion-overlay"></div>
+              <span class="accordion-title" aria-hidden="true">Instrumentação</span>
+            </div>
+            <div class="accordion-item" tabindex="0" role="button" aria-expanded="false" data-index="1">
+              <img src="https://placehold.co/400x450/2d3748/ffffff?text=Modelagem" alt="Simulação de modelagem matemática e física" width="400" height="450" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x450/2d3748/ffffff?text=Erro';" />
+              <div class="accordion-overlay"></div>
+              <span class="accordion-title" aria-hidden="true">Modelagem</span>
+            </div>
+            <div class="accordion-item active" tabindex="0" role="button" aria-expanded="true" data-index="2">
+              <img src="https://placehold.co/400x450/2d3748/ffffff?text=Embarcados" alt="Placa de circuito eletrônico microcontrolador" width="400" height="450" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x450/2d3748/ffffff?text=Erro';" />
+              <div class="accordion-overlay"></div>
+              <span class="accordion-title" aria-hidden="true">Embarcados</span>
+            </div>
+            <div class="accordion-item" tabindex="0" role="button" aria-expanded="false" data-index="3">
+              <img src="https://placehold.co/400x450/2d3748/ffffff?text=Sinais" alt="Sensores e medição de sinais biológicos" width="400" height="450" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/400x450/2d3748/ffffff?text=Erro';" />
+              <div class="accordion-overlay"></div>
+              <span class="accordion-title" aria-hidden="true">Sinais</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CRIAÇÃO DE NOVA SEÇÃO (PORTFÓLIO): Para criar uma seção nova inteira (como Educação, Prêmios) dentro da aba de Portfólio, insira uma tag <section id="id-da-sua-secao" class="sua-classe-section">...</section> a partir deste ponto -->
+
+    <!-- Projetos Section -->
+    <section id="projetos" class="projects-section">
+      <div class="container">
+        <h2 class="section-title">Meus Protótipos</h2>
+        <p class="section-subtitle">Códigos de simulação e ideias que venho desenvolvendo no laboratório.</p>
+
+        <div class="projects-grid">
+          <!-- AJUSTE AQUI: Modifique os protótipos abaixo com as suas informações e links reais. Para criar um novo protótipo/card de projeto, basta copiar um dos blocos <article class="technical-card">...</article> abaixo e colar em seguida -->
+          
+          <!-- Projeto 1 -->
+          <article class="technical-card">
+            <div class="project-header">
+              <span class="project-status status-concept">Conceito</span>
+              <span class="project-tech">C++ / Simulink</span>
+            </div>
+            <h3 class="project-title">Protótipo 1</h3>
+            <p class="project-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla ut libero vulputate elementum.
+            </p>
+            <div class="project-links">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link" aria-label="Ver repositório do Protótipo 1 no GitHub">
+                [repositório] ->
+              </a>
+            </div>
+          </article>
+
+          <!-- Projeto 2 -->
+          <article class="technical-card">
+            <div class="project-header">
+              <span class="project-status status-concept">Conceito</span>
+              <span class="project-tech">Sinais / Sensores</span>
+            </div>
+            <h3 class="project-title">Protótipo 2</h3>
+            <p class="project-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla ut libero vulputate elementum.
+            </p>
+            <div class="project-links">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link" aria-label="Ver repositório do Protótipo 2 no GitHub">
+                [repositório] ->
+              </a>
+            </div>
+          </article>
+
+          <!-- Projeto 3 -->
+          <article class="technical-card">
+            <div class="project-header">
+              <span class="project-status status-dev">Estudando</span>
+              <span class="project-tech">ESP32 / Balança</span>
+            </div>
+            <h3 class="project-title">Protótipo 3</h3>
+            <p class="project-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla ut libero vulputate elementum.
+            </p>
+            <div class="project-links">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link" aria-label="Ver repositório do Protótipo 3 no GitHub">
+                [repositório] ->
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- CRIAÇÃO DE NOVA SEÇÃO (PORTFÓLIO): Para adicionar uma seção nova aqui (após os protótipos, antes da atividade do Github), crie seu bloco <section id="nova-secao">...</section> a partir deste ponto -->
+    <!-- GitHub Contribution Graph -->
+    <section id="github-activity" class="github-section">
+      <div class="container">
+        <h2 class="section-title">Atividade no GitHub</h2>
+        <p class="section-subtitle">Minhas contribuições em projetos de automação e saúde no último ano.</p>
+        
+        <div class="github-calendar-card">
+          <div class="github-calendar-header">
+            <span>pedro-automacao</span>
+            <span class="github-commit-count" id="github-total-commits">143 commits no último ano</span>
+          </div>
+          <div class="github-grid-wrapper">
+            <div class="github-months">
+              <!-- Gerado dinamicamente via JS em main.js -->
+            </div>
+            <div id="github-graph" class="github-graph-grid">
+              <!-- Células geradas dinamicamente via JavaScript em main.js -->
+            </div>
+          </div>
+          <div class="github-calendar-footer">
+            <div class="github-tooltip" id="github-tooltip"></div>
+            <div class="github-legend">
+              <span>Menos</span>
+              <span class="legend-box level-0"></span>
+              <span class="legend-box level-1"></span>
+              <span class="legend-box level-2"></span>
+              <span class="legend-box level-3"></span>
+              <span class="legend-box level-4"></span>
+              <span>Mais</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contato Section (Movida para dentro da aba de Portfólio) -->
+    <section id="contato" class="contact-section">
+      <div class="container">
+        <div class="contact-box">
+          <h2>Vamos Conversar?</h2>
+          <p>Bora trocar uma ideia sobre controle, robótica na saúde ou oportunidades de estágio e desenvolvimento.</p>
+          
+          <div class="contact-items">
+            <!-- AJUSTE AQUI: Modifique o e-mail e os links abaixo para suas contas reais -->
+            <a href="mailto:pedro@exemplo.com" class="btn" id="contact-email" aria-label="Enviar e-mail para Pedro">
+              <i class="fa-solid fa-envelope"></i> [E-mail]
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn" id="contact-linkedin" aria-label="Visitar perfil de Pedro no LinkedIn">
+              <i class="fa-brands fa-linkedin"></i> [LinkedIn]
+            </a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn" id="contact-github" aria-label="Visitar perfil de Pedro no GitHub">
+              <i class="fa-brands fa-github"></i> [GitHub]
+            </a>
+            <a href="https://kaggle.com" target="_blank" rel="noopener noreferrer" class="btn" id="contact-kaggle" aria-label="Visitar perfil de Pedro no Kaggle">
+              <i class="fa-brands fa-kaggle"></i> [Kaggle]
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- CRIAÇÃO DE NOVA ABA (CONTEÚDO - SPA): Se você criou uma nova aba no menu de navegação, insira o container de conteúdo correspondente logo abaixo seguindo este modelo:
+  <div id="tab-nome-da-sua-aba" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-nome-da-sua-aba">
+     <section class="nova-section">
+       <div class="container">
+         <h2>Título da Nova Aba</h2>
+         <p>Conteúdo aqui...</p>
+       </div>
+     </section>
+  </div>
+  -->
+
+  <!-- ==========================================================================
+       ABA 2: BLOG (POSTS DINÂMICOS CARREGADOS VIA JSON COM SIMULADOR INTEGRADO)
+       ========================================================================== */ -->
+  <div id="tab-blog" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-blog">
+    <section class="blog-section">
+      <div class="container">
+        <h2 class="section-title">Artigos e Notas</h2>
+        <p class="section-subtitle">Escrevo para fixar o que aprendo. Clique em um card para ler o artigo completo.</p>
+        
+        <!-- Área de Filtros de Tags -->
+        <div id="blog-filters-area">
+          <!-- Filtro Toggle -->
+          <div style="margin-bottom: 20px;">
+            <button id="toggle-tags-btn" class="btn" aria-expanded="false">
+              <i class="ph ph-funnel"></i> [Filtrar por Tags]
+            </button>
+          </div>
+
+          <!-- Filtros de Tags -->
+          <div class="blog-filters" id="blog-tags-filters" style="display: none; margin-bottom: 30px;">
+            <!-- Injetado dinamicamente via JS -->
+          </div>
+        </div>
+        
+        <!-- Lista de Posts do Blog -->
+        <div id="blog-posts-list" class="projects-grid">
+          <!-- Injetado por JS -->
+          <p class="mono-text">Carregando artigos...</p>
+        </div>
+        
+        <!-- Leitor de Post Único -->
+        <article id="single-post-view" class="single-post-container minimal-post-view">
+          <button id="back-to-blog" class="btn back-to-blog-btn">
+            [&lt;- Voltar aos artigos]
+          </button>
+          <div id="post-header-data" class="mono-text post-header-data"></div>
+          <h1 id="post-title" class="section-title post-title-heading"></h1>
+          <div id="post-body" class="mono-text post-body-container"></div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>PEDRO // CONCEITOS E PROTOTIPAGEM DE ENGENHARIA // 2026</p>
+    </div>
+  </footer>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
