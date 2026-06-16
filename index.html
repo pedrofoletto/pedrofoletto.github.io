@@ -64,12 +64,12 @@
           <img src="https://placehold.co/96x96/2d3748/ffffff?text=Pedro" alt="Pedro" onerror="this.onerror=null; this.src='https://placehold.co/96x96/2d3748/ffffff?text=P';" />
         </div>
         <h1>Oi, eu sou Pedro e sou apaixonado por <br><span class="typewriter-wrapper"><span id="typewriter-text"></span><span class="typewriter-cursor">_</span></span></h1>
-        <p class="hero-lead">
+        <p class="hero-lead" data-txt="hero-lead">
           Focado no desenvolvimento de tecnologia e automação para a área da saúde.
         </p>
         <div class="hero-email-link">
           <!-- AJUSTE AQUI: Substitua o e-mail abaixo pelo seu e-mail de contato do cabeçalho -->
-          <a href="mailto:pedro@exemplo.com">pedro@exemplo.com</a>
+          <a href="mailto:pedro@exemplo.com" data-txt="hero-email">pedro@exemplo.com</a>
         </div>
       </div>
     </section>
@@ -124,13 +124,13 @@
         <div class="about-content-layout">
           <div class="about-text-blocks">
             <!-- AJUSTE AQUI: Substitua o Lorem Ipsum abaixo pela sua biografia / sobre mim pessoal -->
-            <p>
+            <p data-txt="sobre-p1">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
-            <p>
+            <p data-txt="sobre-p2">
               Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
             </p>
-            <p>
+            <p data-txt="sobre-p3">
               Curabitur non nulla ut libero vulputate elementum. Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.
             </p>
           </div>
@@ -169,23 +169,19 @@
     <section id="projetos" class="projects-section">
       <div class="container">
         <h2 class="section-title">Meus Protótipos</h2>
-        <p class="section-subtitle">Códigos de simulação e ideias que venho desenvolvendo no laboratório.</p>
+        <p class="section-subtitle" data-txt="proj-subtitle">Códigos de simulação e ideias que venho desenvolvendo no laboratório.</p>
 
         <div class="projects-grid">
           <!-- AJUSTE AQUI: Modifique os protótipos abaixo com as suas informações e links reais. Para criar um novo protótipo/card de projeto, basta copiar um dos blocos <article class="technical-card">...</article> abaixo e colar em seguida -->
           
           <!-- Projeto 1 -->
           <article class="technical-card">
-            <div class="project-header">
-              <span class="project-status status-concept">Conceito</span>
-              <span class="project-tech">C++ / Simulink</span>
-            </div>
-            <h3 class="project-title">Protótipo 1</h3>
-            <p class="project-description">
+            <h3 class="project-title" data-txt="proj-1-title">Protótipo 1</h3>
+            <p class="project-description" data-txt="proj-1-desc">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla ut libero vulputate elementum.
             </p>
             <div class="project-links">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link" aria-label="Ver repositório do Protótipo 1 no GitHub">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link" data-txt="proj-1-link" aria-label="Ver repositório do Protótipo 1 no GitHub">
                 [repositório] ->
               </a>
             </div>
@@ -193,16 +189,12 @@
 
           <!-- Projeto 2 -->
           <article class="technical-card">
-            <div class="project-header">
-              <span class="project-status status-concept">Conceito</span>
-              <span class="project-tech">Sinais / Sensores</span>
-            </div>
-            <h3 class="project-title">Protótipo 2</h3>
-            <p class="project-description">
+            <h3 class="project-title" data-txt="proj-2-title">Protótipo 2</h3>
+            <p class="project-description" data-txt="proj-2-desc">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla ut libero vulputate elementum.
             </p>
             <div class="project-links">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link" aria-label="Ver repositório do Protótipo 2 no GitHub">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link" data-txt="proj-2-link" aria-label="Ver repositório do Protótipo 2 no GitHub">
                 [repositório] ->
               </a>
             </div>
@@ -210,16 +202,12 @@
 
           <!-- Projeto 3 -->
           <article class="technical-card">
-            <div class="project-header">
-              <span class="project-status status-dev">Estudando</span>
-              <span class="project-tech">ESP32 / Balança</span>
-            </div>
-            <h3 class="project-title">Protótipo 3</h3>
-            <p class="project-description">
+            <h3 class="project-title" data-txt="proj-3-title">Protótipo 3</h3>
+            <p class="project-description" data-txt="proj-3-desc">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non nulla ut libero vulputate elementum.
             </p>
             <div class="project-links">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link" aria-label="Ver repositório do Protótipo 3 no GitHub">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn-link" data-txt="proj-3-link" aria-label="Ver repositório do Protótipo 3 no GitHub">
                 [repositório] ->
               </a>
             </div>
@@ -232,11 +220,11 @@
     <section id="github-activity" class="github-section">
       <div class="container">
         <h2 class="section-title">Atividade no GitHub</h2>
-        <p class="section-subtitle">Minhas contribuições em projetos de automação e saúde no último ano.</p>
+        <p class="section-subtitle" data-txt="github-subtitle">Minhas contribuições em projetos de automação e saúde no último ano.</p>
         
         <div class="github-calendar-card">
           <div class="github-calendar-header">
-            <span>pedro-automacao</span>
+            <span data-txt="github-username">pedro-automacao</span>
             <span class="github-commit-count" id="github-total-commits">143 commits no último ano</span>
           </div>
           <div class="github-grid-wrapper">
@@ -268,20 +256,20 @@
       <div class="container">
         <div class="contact-box">
           <h2>Vamos Conversar?</h2>
-          <p>Bora trocar uma ideia sobre controle, robótica na saúde ou oportunidades de estágio e desenvolvimento.</p>
+          <p data-txt="contact-lead">Bora trocar uma ideia sobre controle, robótica na saúde ou oportunidades de estágio e desenvolvimento.</p>
           
           <div class="contact-items">
             <!-- AJUSTE AQUI: Modifique o e-mail e os links abaixo para suas contas reais -->
             <a href="mailto:pedro@exemplo.com" class="btn" id="contact-email" aria-label="Enviar e-mail para Pedro">
               <i class="fa-solid fa-envelope"></i> [E-mail]
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn" id="contact-linkedin" aria-label="Visitar perfil de Pedro no LinkedIn">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn" id="contact-linkedin" data-txt="link-linkedin" aria-label="Visitar perfil de Pedro no LinkedIn">
               <i class="fa-brands fa-linkedin"></i> [LinkedIn]
             </a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn" id="contact-github" aria-label="Visitar perfil de Pedro no GitHub">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="btn" id="contact-github" data-txt="link-github" aria-label="Visitar perfil de Pedro no GitHub">
               <i class="fa-brands fa-github"></i> [GitHub]
             </a>
-            <a href="https://kaggle.com" target="_blank" rel="noopener noreferrer" class="btn" id="contact-kaggle" aria-label="Visitar perfil de Pedro no Kaggle">
+            <a href="https://kaggle.com" target="_blank" rel="noopener noreferrer" class="btn" id="contact-kaggle" data-txt="link-kaggle" aria-label="Visitar perfil de Pedro no Kaggle">
               <i class="fa-brands fa-kaggle"></i> [Kaggle]
             </a>
           </div>

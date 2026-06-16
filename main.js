@@ -380,6 +380,199 @@ let aulasData = [];
 let currentRenderedLanguage = null;
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
+// Variáveis de configuração dinâmica lidas do textos.json
+let GITHUB_USERNAME = "pedrofoletto";
+let typewriterWords = ["Controle & Automação", "Bioinstrumentação", "Sistemas Embarcados", "Sinais Analógicos", "Tecnologia Médica"];
+
+// ==========================================================================
+// CARREGAMENTO E EDIÇÃO DE TEXTOS ESTÁTICOS (LOCAL ONLY)
+// ==========================================================================
+async function loadTextos() {
+  try {
+    const response = await fetch(`./textos.json?t=${Date.now()}`);
+    if (!response.ok) throw new Error('Falha ao carregar textos.json');
+    const textos = await response.json();
+    
+    // Atualiza configurações dinâmicas
+    if (textos['github-username']) {
+      GITHUB_USERNAME = textos['github-username'];
+    }
+    if (textos['typewriter-words']) {
+      typewriterWords = textos['typewriter-words'].split(',').map(s => s.trim());
+    }
+    
+    Object.entries(textos).forEach(([key, val]) => {
+      const elements = document.querySelectorAll(`[data-txt="${key}"]`);
+      elements.forEach(el => {
+        if ((key.endsWith('-link') || key.startsWith('link-')) && el.tagName === 'A') {
+          el.href = val;
+        } else if (el.tagName === 'A' && key === 'hero-email') {
+          el.href = `mailto:${val}`;
+          el.textContent = val;
+        } else {
+          el.textContent = val;
+        }
+      });
+    });
+
+    if (textos['hero-email']) {
+      const contactEmail = document.getElementById('contact-email');
+      if (contactEmail) {
+        contactEmail.href = `mailto:${textos['hero-email']}`;
+      }
+    }
+  } catch (error) {
+    console.error('Erro ao carregar textos estáticos:', error);
+  }
+}
+
+function setupTextEditing() {
+  if (!isLocal) return;
+
+  const textElements = document.querySelectorAll('[data-txt]');
+  textElements.forEach(el => {
+    el.classList.add('local-editable');
+
+    // Em dev, previne clique acidental em links do tipo data-txt (como email ou repo)
+    el.addEventListener('click', (e) => {
+      if (el.tagName === 'A') {
+        e.preventDefault();
+      }
+    });
+
+    el.addEventListener('dblclick', async (e) => {
+      e.preventDefault();
+      
+      const key = el.getAttribute('data-txt');
+      if (key && (key.endsWith('-link') || key.startsWith('link-'))) {
+        const originalUrl = el.href;
+        let promptMsg = "Digite a nova URL:";
+        if (key.startsWith('proj-')) {
+          promptMsg = "Digite a nova URL do repositório no GitHub:";
+        } else if (key === 'link-linkedin') {
+          promptMsg = "Digite a URL do seu perfil no LinkedIn:";
+        } else if (key === 'link-github') {
+          promptMsg = "Digite a URL do seu perfil no GitHub:";
+        } else if (key === 'link-kaggle') {
+          promptMsg = "Digite a URL do seu perfil no Kaggle:";
+        }
+        
+        const newUrl = prompt(promptMsg, originalUrl);
+        if (newUrl === null) return; // Cancelou
+        
+        const trimmedUrl = newUrl.trim();
+        if (trimmedUrl === originalUrl) return;
+
+        try {
+          const response = await fetch('/api/salvar-texto', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ key, value: trimmedUrl })
+          });
+
+          const result = await response.json();
+          if (response.ok) {
+            console.log(`URL '${key}' atualizada com sucesso!`);
+            el.href = trimmedUrl;
+          } else {
+            alert(`Erro ao salvar URL: ${result.error}`);
+          }
+        } catch (err) {
+          console.error('Erro ao salvar URL:', err);
+          alert('Erro ao enviar dados para a API local.');
+        }
+        return;
+      }
+
+      const originalText = el.innerText.trim();
+      el.dataset.original = originalText;
+
+      el.contentEditable = 'true';
+      el.focus();
+      
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+
+      el.classList.add('editing-active');
+    });
+
+    el.addEventListener('blur', async () => {
+      if (el.contentEditable !== 'true') return;
+      
+      el.contentEditable = 'false';
+      el.classList.remove('editing-active');
+
+      const key = el.getAttribute('data-txt');
+      const value = el.innerText.trim();
+      const original = el.dataset.original;
+
+      if (value === original) return;
+
+      try {
+        const response = await fetch('/api/salvar-texto', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ key, value })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          console.log(`Texto '${key}' atualizado com sucesso!`);
+          if (key === 'hero-email') {
+            el.href = `mailto:${value}`;
+            const contactEmail = document.getElementById('contact-email');
+            if (contactEmail) {
+              contactEmail.href = `mailto:${value}`;
+            }
+          }
+          // Se o usuário editou o github-username ou as palavras do typewriter, recarrega
+          if (key === 'github-username') {
+            GITHUB_USERNAME = value;
+            if (typeof loadGithubContributions === 'function') {
+              loadGithubContributions();
+            }
+          } else if (key === 'typewriter-words') {
+            typewriterWords = value.split(',').map(s => s.trim());
+          }
+        } else {
+          alert(`Erro ao salvar text: ${result.error}`);
+          el.innerText = original;
+        }
+      } catch (err) {
+        console.error('Erro ao salvar texto:', err);
+        alert('Erro ao enviar dados para a API local.');
+        el.innerText = original;
+      }
+    });
+
+    el.addEventListener('keydown', (e) => {
+      if (el.contentEditable !== 'true') return;
+
+      const keyAttr = el.getAttribute('data-txt');
+      const isSingleLine = keyAttr && !keyAttr.includes('sobre-p') && !keyAttr.includes('-desc');
+
+      if (e.key === 'Enter') {
+        if (isSingleLine || (!isSingleLine && !e.shiftKey)) {
+          e.preventDefault();
+          el.blur();
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        el.innerText = el.dataset.original || '';
+        el.contentEditable = 'false';
+        el.classList.remove('editing-active');
+      }
+    });
+  });
+}
+
 async function loadAulas() {
   try {
     const response = await fetch(`./aulas.json?t=${Date.now()}`);
@@ -845,6 +1038,9 @@ if (btnVoltarPortal) {
 
 window.addEventListener('hashchange', handleAulaRouting);
 
+loadTextos().then(() => {
+  setupTextEditing();
+});
 loadRepos();
 loadAulas();
 checkInitialHash();
@@ -1050,8 +1246,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const githubTotalCommits = document.getElementById('github-total-commits');
 
   if (githubGraph) {
-    const GITHUB_USERNAME = "pedrofoletto"; // <-- Substitua pelo seu usuário do GitHub
-
     async function loadGithubContributions() {
       try {
         const res = await fetch(`https://github-contributions-api.deno.dev/${GITHUB_USERNAME}.json?flat=true`);
@@ -1140,6 +1334,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    window.loadGithubContributions = loadGithubContributions;
     loadGithubContributions();
   }
 
@@ -1175,7 +1370,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   const typewriterText = document.getElementById('typewriter-text');
   if (typewriterText) {
-    const words = ["Controle & Automação", "Bioinstrumentação", "Sistemas Embarcados", "Sinais Analógicos", "Tecnologia Médica"];
+    const words = typewriterWords;
     let wordIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
@@ -1185,7 +1380,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!document.body.contains(typewriterText)) {
         return;
       }
-      const currentWord = words[wordIndex];
+      if (!words || words.length === 0) {
+        setTimeout(type, 500);
+        return;
+      }
+      const currentWord = words[wordIndex % words.length];
       if (isDeleting) {
         typewriterText.innerText = currentWord.substring(0, charIndex - 1);
         charIndex--;
@@ -1362,6 +1561,14 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('Erro ao enviar dados para a API local.');
       }
     });
+  }
+});
+
+// Previne perda de dados se o usuário atualizar a página (F5) ou sair enquanto edita
+window.addEventListener('beforeunload', (e) => {
+  if (document.querySelector('.editing-active')) {
+    e.preventDefault();
+    e.returnValue = '';
   }
 });
 

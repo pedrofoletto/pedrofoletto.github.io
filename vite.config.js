@@ -162,6 +162,43 @@ export default defineConfig({
                 res.end(JSON.stringify({ error: 'Erro interno no servidor.', details: err.message }));
               }
             });
+          } else if (req.url.startsWith('/api/salvar-texto') && req.method === 'POST') {
+            let body = '';
+            req.on('data', chunk => {
+              body += chunk.toString();
+            });
+            req.on('end', () => {
+              try {
+                const data = JSON.parse(body);
+                const { key, value } = data;
+
+                if (!key || value === undefined) {
+                  res.statusCode = 400;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.end(JSON.stringify({ error: 'Campos key e value são obrigatórios.' }));
+                  return;
+                }
+
+                const textosPath = path.join(__dirname, 'public/textos.json');
+                let textos = {};
+                if (fs.existsSync(textosPath)) {
+                  textos = JSON.parse(fs.readFileSync(textosPath, 'utf-8'));
+                }
+                textos[key] = value;
+                fs.writeFileSync(textosPath, JSON.stringify(textos, null, 2), 'utf-8');
+
+                fs.appendFileSync(path.join(__dirname, 'log-api.txt'), `[${new Date().toISOString()}] Texto '${key}' atualizado com sucesso!\n`, 'utf-8');
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ success: true, message: `Texto '${key}' atualizado com sucesso!` }));
+
+              } catch (err) {
+                fs.appendFileSync(path.join(__dirname, 'log-api.txt'), `[${new Date().toISOString()}] Erro ao salvar texto: ${err.message}\n`, 'utf-8');
+                res.statusCode = 500;
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify({ error: 'Erro interno ao salvar texto.', details: err.message }));
+              }
+            });
           } else {
             next();
           }

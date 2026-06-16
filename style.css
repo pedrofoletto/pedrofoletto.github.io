@@ -1907,4 +1907,63 @@ code[class*="language-"] {
   }
 }
 
+/* ==========================================================================
+   EDITOR VISUAL INLINE (LOCAL ONLY)
+   ========================================================================== */
+.local-editable {
+  position: relative;
+  transition: outline var(--transition-fast), background-color var(--transition-fast);
+  border-radius: 2px;
+}
+
+.local-editable:hover {
+  cursor: text;
+  outline: 1px dashed var(--primary);
+  outline-offset: 4px;
+  background-color: color-mix(in srgb, var(--primary) 3%, transparent);
+}
+
+/* Tooltip explicativo no hover */
+.local-editable:hover::after {
+  content: "[DblClick para editar]";
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--foreground);
+  color: var(--background);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: var(--radius);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  animation: tooltipFadeIn 0.15s ease;
+}
+
+.local-editable.editing-active {
+  outline: 2px solid var(--primary) !important;
+  outline-offset: 4px;
+  background-color: color-mix(in srgb, var(--primary) 6%, transparent) !important;
+  cursor: text;
+}
+
+.local-editable.editing-active::after {
+  display: none !important; /* Esconde o tooltip ao editar */
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 3px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+
 
