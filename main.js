@@ -116,7 +116,7 @@ const menuToggle = document.getElementById('menu-toggle');
 const navbar = document.getElementById('navbar');
 const toggleIcon = menuToggle ? menuToggle.querySelector('i') : null;
 
-function switchTab(tabId) {
+function switchTab(tabId, avoidRouting = false) {
   tabContents.forEach(content => content.classList.remove('active-tab'));
   tabButtons.forEach(btn => {
     btn.classList.remove('active');
@@ -143,6 +143,18 @@ function switchTab(tabId) {
     }
     if (toggleIcon) {
       toggleIcon.className = 'ph ph-list';
+    }
+  }
+
+  if (tabId === 'aulas' && !avoidRouting) {
+    const hash = window.location.hash;
+    if (!hash || !hash.startsWith('#/')) {
+      const firstLink = document.querySelector('.tree-link');
+      if (firstLink) {
+        window.location.hash = firstLink.getAttribute('href');
+      }
+    } else {
+      handleAulaRouting();
     }
   }
 
@@ -203,33 +215,33 @@ if (menuToggle && navbar && toggleIcon) {
 }
 
 // ==========================================================================
-// BLOG DINÂMICO & SIMULADOR INTEGRADO ESTILO NOTEBOOK
+// REPOSITÓRIOS DINÂMICOS (PROJETOS DO GITHUB CARREGADOS VIA JSON)
 // ==========================================================================
-const postsListContainer = document.getElementById('blog-posts-list');
-const singlePostView = document.getElementById('single-post-view');
-const backToBlogBtn = document.getElementById('back-to-blog');
+const repositoriosListContainer = document.getElementById('repositorios-list');
+const singleRepositorioView = document.getElementById('single-repositorio-view');
+const backToRepositoriosBtn = document.getElementById('back-to-repositorios');
 
-let blogPosts = [];
+let reposPosts = [];
 let currentCategory = 'todos';
 
-async function loadBlogPosts() {
+async function loadRepos() {
   try {
     const response = await fetch('./posts.json');
-    if (!response.ok) throw new Error('Falha ao carregar arquivo de artigos.');
-    blogPosts = await response.json();
-    renderBlogList(blogPosts);
-    setupTagFilters();
+    if (!response.ok) throw new Error('Falha ao carregar arquivo de repositórios.');
+    reposPosts = await response.json();
+    renderReposList(reposPosts);
+    setupReposTagFilters();
   } catch (error) {
     console.error(error);
-    if (postsListContainer) {
-      postsListContainer.innerHTML = `<p class="mono-text">Erro ao carregar os artigos. Verifique posts.json.</p>`;
+    if (repositoriosListContainer) {
+      repositoriosListContainer.innerHTML = `<p class="mono-text">Erro ao carregar os repositórios. Verifique posts.json.</p>`;
     }
   }
 }
 
-function renderBlogList(posts) {
-  if (!postsListContainer) return;
-  postsListContainer.innerHTML = '';
+function renderReposList(posts) {
+  if (!repositoriosListContainer) return;
+  repositoriosListContainer.innerHTML = '';
 
   const filteredPosts = posts.filter(post => {
     if (currentCategory === 'todos') return true;
@@ -237,7 +249,7 @@ function renderBlogList(posts) {
   });
 
   if (filteredPosts.length === 0) {
-    postsListContainer.innerHTML = `<p class="mono-text empty-blog-message" style="grid-column: 1/-1; text-align: center; padding: 40px 0;">Nenhum artigo encontrado com essa tag.</p>`;
+    repositoriosListContainer.innerHTML = `<p class="mono-text empty-blog-message" style="grid-column: 1/-1; text-align: center; padding: 40px 0;">Nenhum repositório encontrado com essa tag.</p>`;
     return;
   }
 
@@ -245,7 +257,7 @@ function renderBlogList(posts) {
     const card = document.createElement('article');
     card.className = `technical-card blog-post-card`;
 
-    const actionText = '[Ler Detalhes] ->';
+    const actionText = '[Ver Detalhes] ->';
 
     card.innerHTML = `
       <div class="post-meta">${escapeHTML(post.data)}</div>
@@ -253,17 +265,17 @@ function renderBlogList(posts) {
       <p class="project-description">${escapeHTML(post.resumo)}</p>
       <span class="post-read-more">${escapeHTML(actionText)}</span>
     `;
-    card.addEventListener('click', () => showSinglePost(post));
-    postsListContainer.appendChild(card);
+    card.addEventListener('click', () => showSingleRepositorio(post));
+    repositoriosListContainer.appendChild(card);
   });
 }
 
-function setupTagFilters() {
-  const tagsContainer = document.getElementById('blog-tags-filters');
+function setupReposTagFilters() {
+  const tagsContainer = document.getElementById('repositorios-tags-filters');
   if (!tagsContainer) return;
 
   const allTags = new Set();
-  blogPosts.forEach(post => {
+  reposPosts.forEach(post => {
     if (post.tags) {
       post.tags.forEach(tag => allTags.add(tag));
     }
@@ -283,29 +295,29 @@ function setupTagFilters() {
       btn.classList.add('active');
       currentCategory = btn.getAttribute('data-category');
 
-      if (singlePostView && singlePostView.style.display === 'block') {
-        singlePostView.style.display = 'none';
-        if (postsListContainer) postsListContainer.style.display = 'grid';
-        const blogFiltersArea = document.getElementById('blog-filters-area');
-        if (blogFiltersArea) blogFiltersArea.style.display = 'block';
+      if (singleRepositorioView && singleRepositorioView.style.display === 'block') {
+        singleRepositorioView.style.display = 'none';
+        if (repositoriosListContainer) repositoriosListContainer.style.display = 'grid';
+        const reposFiltersArea = document.getElementById('repositorios-filters-area');
+        if (reposFiltersArea) reposFiltersArea.style.display = 'block';
       }
 
-      renderBlogList(blogPosts);
+      renderReposList(reposPosts);
     });
   });
 }
 
-function showSinglePost(post) {
-  if (postsListContainer) postsListContainer.style.display = 'none';
-  if (singlePostView) singlePostView.style.display = 'block';
+function showSingleRepositorio(post) {
+  if (repositoriosListContainer) repositoriosListContainer.style.display = 'none';
+  if (singleRepositorioView) singleRepositorioView.style.display = 'block';
 
-  // Oculta a área de filtros do blog (botão toggle e lista de tags)
-  const blogFiltersArea = document.getElementById('blog-filters-area');
-  if (blogFiltersArea) blogFiltersArea.style.display = 'none';
+  // Oculta a área de filtros
+  const reposFiltersArea = document.getElementById('repositorios-filters-area');
+  if (reposFiltersArea) reposFiltersArea.style.display = 'none';
 
-  const postHeaderData = document.getElementById('post-header-data');
-  const postTitle = document.getElementById('post-title');
-  const postBodyContainer = document.getElementById('post-body');
+  const repositorioHeaderData = document.getElementById('repositorio-header-data');
+  const repositorioTitle = document.getElementById('repositorio-title');
+  const repositorioBodyContainer = document.getElementById('repositorio-body');
 
   let linksHtml = '';
   if (post.colab || post.github || post.link_projeto) {
@@ -337,81 +349,277 @@ function showSinglePost(post) {
     linksHtml += `</div>`;
   }
 
-  if (post.tipo === 'experimento') {
-    // Oculta cabeçalhos padrão
-    if (postHeaderData) postHeaderData.style.display = 'none';
-    if (postTitle) postTitle.style.display = 'none';
+  // Exibe cabeçalhos padrão para artigos
+  if (repositorioHeaderData) {
+    repositorioHeaderData.style.display = 'block';
+    const tagsHtml = (post.tags || []).map(t => `<span class="blog-card-tag" style="color: var(--primary); font-weight: bold; margin-left: 10px;">#${escapeHTML(t)}</span>`).join('');
+    repositorioHeaderData.innerHTML = escapeHTML(post.data) + tagsHtml;
+  }
+  if (repositorioTitle) {
+    repositorioTitle.style.display = 'block';
+    repositorioTitle.innerText = post.titulo;
+  }
+  if (repositorioBodyContainer) {
+    repositorioBodyContainer.innerHTML = sanitizeHTML(post.conteudo + linksHtml);
 
-    if (postBodyContainer) {
-      const materiaisHtml = (post.materiais || []).map(m => `<li>${escapeHTML(m)}</li>`).join('');
-      const passoHtml = (post.passo_a_passo || []).map(p => `<li>${escapeHTML(p)}</li>`).join('');
-      
-      const html = `
-        <div class="notebook-style-view">
-          <div class="notebook-label-header">
-            <span>[DIY // Experimento Maker]</span>
-            <span class="notebook-label-difficulty">${escapeHTML(post.dificuldade)}</span>
-          </div>
-          <h1 class="notebook-heading-title">${escapeHTML(post.titulo)}</h1>
-          <div class="notebook-meta-date">REGISTRO DATA: ${escapeHTML(post.data)}</div>
-          
-          <p class="notebook-para-science"><strong>Resumo:</strong> ${escapeHTML(post.resumo)}</p>
-          
-          <h4 class="notebook-section-h4">Componentes / Materiais:</h4>
-          <ul class="notebook-list">
-            ${materiaisHtml}
-          </ul>
-          
-          <h4 class="notebook-section-h4">Passo a Passo da Montagem:</h4>
-          <ol class="notebook-list">
-            ${passoHtml}
-          </ol>
-          
-          <h4 class="notebook-section-h4">A Ciência por trás do Experimento:</h4>
-          <p class="notebook-para-science">${escapeHTML(post.ciencia)}</p>
-          
-          <h4 class="notebook-section-h4">Anexo: Esquema de Circuito / Mecânico</h4>
-          <pre class="ascii-diagram">${escapeHTML(post.esquematico)}</pre>
-          ${linksHtml}
-        </div>
-      `;
-      postBodyContainer.innerHTML = sanitizeHTML(html);
-    }
-  } else {
-    // Exibe cabeçalhos padrão para artigos
-    if (postHeaderData) {
-      postHeaderData.style.display = 'block';
-      const tagsHtml = (post.tags || []).map(t => `<span class="blog-card-tag" style="color: var(--primary); font-weight: bold; margin-left: 10px;">#${escapeHTML(t)}</span>`).join('');
-      postHeaderData.innerHTML = escapeHTML(post.data) + tagsHtml;
-    }
-    if (postTitle) {
-      postTitle.style.display = 'block';
-      postTitle.innerText = post.titulo;
-    }
-    if (postBodyContainer) {
-      postBodyContainer.innerHTML = sanitizeHTML(post.conteudo + linksHtml);
-
-      // Verifica se o artigo requer a injeção do simulador PID
-      const pidMount = document.getElementById('interactive-pid-mount');
-      if (pidMount) {
-        injectPidSimulator(pidMount);
-      }
+    // Verifica se o artigo requer a injeção do simulador PID
+    const pidMount = document.getElementById('interactive-pid-mount');
+    if (pidMount) {
+      injectPidSimulator(pidMount);
     }
   }
 }
 
-if (backToBlogBtn) {
-  backToBlogBtn.addEventListener('click', () => {
-    if (singlePostView) singlePostView.style.display = 'none';
-    if (postsListContainer) postsListContainer.style.display = 'grid';
+if (backToRepositoriosBtn) {
+  backToRepositoriosBtn.addEventListener('click', () => {
+    if (singleRepositorioView) singleRepositorioView.style.display = 'none';
+    if (repositoriosListContainer) repositoriosListContainer.style.display = 'grid';
 
-    // Exibe de volta a área de filtros do blog
-    const blogFiltersArea = document.getElementById('blog-filters-area');
-    if (blogFiltersArea) blogFiltersArea.style.display = 'block';
+    // Exibe de volta a área de filtros
+    const reposFiltersArea = document.getElementById('repositorios-filters-area');
+    if (reposFiltersArea) reposFiltersArea.style.display = 'block';
   });
 }
 
-loadBlogPosts();
+// ==========================================================================
+// AULAS DINÂMICAS E SISTEMA DE NAVEGAÇÃO EM ÁRVORE
+// ==========================================================================
+let aulasData = [];
+let currentRenderedLanguage = null;
+
+async function loadAulas() {
+  try {
+    const response = await fetch('./aulas.json');
+    if (!response.ok) throw new Error('Falha ao carregar aulas.json');
+    aulasData = await response.json();
+    renderAulasContent(aulasData);
+    handleAulaRouting();
+  } catch (error) {
+    console.error("Erro ao carregar aulas:", error);
+    const contentArea = document.getElementById('aulas-content-area');
+    if (contentArea) {
+      contentArea.innerHTML = `<p class="mono-text">Erro ao carregar as aulas. Verifique aulas.json.</p>`;
+    }
+  }
+}
+
+function renderAulasTreeMenu(aulas, selectedLanguage) {
+  const treeMenu = document.getElementById('aulas-tree-menu');
+  if (!treeMenu) return;
+  treeMenu.innerHTML = '';
+
+  // Filtrar aulas apenas para o idioma selecionado
+  const filteredAulas = aulas.filter(aula => aula.language.toLowerCase() === selectedLanguage.toLowerCase());
+
+  const branchLi = document.createElement('li');
+  branchLi.className = 'tree-branch';
+  branchLi.style.marginTop = '10px';
+
+  const langId = `submenu-${selectedLanguage.toLowerCase().replace(/\s+/g, '-')}`;
+  
+  branchLi.innerHTML = `
+    <div class="tree-folder" data-target="${langId}">
+      <i class="ph ph-folder-open"></i> <span>Módulo ${selectedLanguage}</span>
+    </div>
+    <ul class="tree-items" id="${langId}"></ul>
+  `;
+  
+  const itemsUl = branchLi.querySelector('.tree-items');
+  
+  // Agrupar lições do módulo por subfolder
+  const subfolders = {};
+  const rootAulas = [];
+  
+  filteredAulas.forEach(aula => {
+    if (aula.subfolder) {
+      if (!subfolders[aula.subfolder]) {
+        subfolders[aula.subfolder] = [];
+      }
+      subfolders[aula.subfolder].push(aula);
+    } else {
+      rootAulas.push(aula);
+    }
+  });
+
+  // Anexar lições da raiz do módulo primeiro
+  rootAulas.forEach(aula => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <a href="#/${aula.id}" class="tree-link">
+        <i class="ph ph-file-text"></i> <span>${aula.title}</span>
+      </a>
+    `;
+    itemsUl.appendChild(li);
+  });
+
+  // Anexar subpastas
+  Object.keys(subfolders).forEach(sub => {
+    const subBranchLi = document.createElement('li');
+    subBranchLi.className = 'tree-branch';
+    subBranchLi.style.marginTop = '6px';
+    
+    const subId = `${langId}-${sub.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+    
+    subBranchLi.innerHTML = `
+      <div class="tree-folder" data-target="${subId}">
+        <i class="ph ph-folder-open"></i> <span>${sub}</span>
+      </div>
+      <ul class="tree-items" id="${subId}"></ul>
+    `;
+    
+    const subItemsUl = subBranchLi.querySelector('.tree-items');
+    subfolders[sub].forEach(aula => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <a href="#/${aula.id}" class="tree-link">
+          <i class="ph ph-file-text"></i> <span>${aula.title}</span>
+        </a>
+      `;
+      subItemsUl.appendChild(li);
+    });
+    
+    itemsUl.appendChild(subBranchLi);
+  });
+
+  treeMenu.appendChild(branchLi);
+}
+
+function renderAulasContent(aulas) {
+  const contentArea = document.getElementById('aulas-content-area');
+  if (!contentArea) return;
+  contentArea.innerHTML = '';
+
+  aulas.forEach(aula => {
+    const article = document.createElement('article');
+    article.id = `aula-${aula.id}`;
+    article.className = 'aula-article';
+    article.style.display = 'none';
+    
+    // Higienizar e carregar HTML gerado pelo compiler
+    article.innerHTML = sanitizeHTML(aula.content);
+    
+    contentArea.appendChild(article);
+  });
+}
+
+function handleAulaRouting() {
+  const hash = window.location.hash;
+  const headerContainer = document.getElementById('aulas-header-container');
+  const portalContainer = document.getElementById('aulas-portal-container');
+  const layoutContainer = document.getElementById('aulas-layout-container');
+
+  if (!hash || !hash.startsWith('#/') || hash === '#/aulas') {
+    // Exibe portal de escolha e esconde layout de sumário/artigos
+    if (headerContainer) headerContainer.style.display = 'block';
+    if (portalContainer) portalContainer.style.display = 'block';
+    if (layoutContainer) layoutContainer.style.display = 'none';
+    
+    currentRenderedLanguage = null;
+    return;
+  }
+
+  const aulaId = hash.slice(2);
+  const matchingAula = aulasData.find(a => a.id === aulaId);
+  if (matchingAula) {
+    // 1. Ativar aba de aulas caso não esteja ativa (evitando loop recursivo)
+    switchTab('aulas', true);
+    
+    // 2. Ocultar portal de escolha e cabeçalhos
+    if (headerContainer) headerContainer.style.display = 'none';
+    if (portalContainer) portalContainer.style.display = 'none';
+    if (layoutContainer) layoutContainer.style.display = 'block';
+    
+    // 3. Renderizar árvore lateral do assunto selecionado se mudou de módulo
+    if (matchingAula.language !== currentRenderedLanguage) {
+      renderAulasTreeMenu(aulasData, matchingAula.language);
+      currentRenderedLanguage = matchingAula.language;
+    }
+    
+    // 4. Ocultar todos os artigos e mostrar apenas o selecionado
+    const articles = document.querySelectorAll('#aulas-content-area .aula-article');
+    articles.forEach(art => {
+      art.style.display = 'none';
+    });
+    const activeArticle = document.getElementById(`aula-${aulaId}`);
+    if (activeArticle) {
+      activeArticle.style.display = 'block';
+    }
+    
+    // 5. Destacar link ativo e expandir suas pastas ancestrais
+    const links = document.querySelectorAll('.tree-link');
+    links.forEach(lnk => {
+      lnk.classList.remove('active-link');
+      if (lnk.getAttribute('href') === hash) {
+        lnk.classList.add('active-link');
+        
+        let parent = lnk.closest('.tree-items');
+        while (parent) {
+          parent.classList.remove('collapsed');
+          const folder = document.querySelector(`[data-target="${parent.id}"]`);
+          if (folder) {
+            const icon = folder.querySelector('i');
+            if (icon) icon.className = 'ph ph-folder-open';
+          }
+          parent = parent.parentElement.closest('.tree-items');
+        }
+      }
+    });
+    
+    // 6. Rodar o realce de sintaxe do Prism.js
+    if (typeof Prism !== 'undefined') {
+      Prism.highlightAll();
+    }
+  }
+}
+
+function checkInitialHash() {
+  const hash = window.location.hash;
+  if (hash.startsWith('#/')) {
+    switchTab('aulas', true);
+    handleAulaRouting();
+  }
+}
+
+// Gerenciador de click nos folders da árvore
+document.addEventListener('click', (e) => {
+  const folder = e.target.closest('.tree-folder');
+  if (folder) {
+    const targetId = folder.getAttribute('data-target');
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      const isCollapsed = targetEl.classList.toggle('collapsed');
+      const icon = folder.querySelector('i');
+      if (icon) {
+        icon.className = isCollapsed ? 'ph ph-folder' : 'ph ph-folder-open';
+      }
+    }
+    return;
+  }
+
+  // Click nos cards do portal para escolher assunto
+  const subjectCard = e.target.closest('.subject-card');
+  if (subjectCard) {
+    const subject = subjectCard.getAttribute('data-subject');
+    const firstAula = aulasData.find(a => a.language.toLowerCase() === subject.toLowerCase());
+    if (firstAula) {
+      window.location.hash = `#/${firstAula.id}`;
+    }
+  }
+});
+
+// Listener do botão de voltar para o portal
+const btnVoltarPortal = document.getElementById('btn-voltar-portal');
+if (btnVoltarPortal) {
+  btnVoltarPortal.addEventListener('click', () => {
+    window.location.hash = '#/aulas';
+  });
+}
+
+window.addEventListener('hashchange', handleAulaRouting);
+
+loadRepos();
+loadAulas();
+checkInitialHash();
 
 // ==========================================================================
 // MOTOR DE INJEÇÃO E CÁLCULO DO SIMULADOR PID
@@ -711,7 +919,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ALTERNAR VISIBILIDADE DOS FILTROS DE TAGS
   // ==========================================================================
   const toggleTagsBtn = document.getElementById('toggle-tags-btn');
-  const tagsFilters = document.getElementById('blog-tags-filters');
+  const tagsFilters = document.getElementById('repositorios-tags-filters');
   if (toggleTagsBtn && tagsFilters) {
     toggleTagsBtn.addEventListener('click', () => {
       const isHidden = tagsFilters.style.display === 'none';

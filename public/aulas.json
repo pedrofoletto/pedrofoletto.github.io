@@ -1,0 +1,34 @@
+[
+  {
+    "id": "julia-intro",
+    "title": "Computação Científica na Saúde",
+    "language": "Julia",
+    "subfolder": null,
+    "order": 1,
+    "content": "<p>A bioengenharia exige modelagem de sistemas dinâmicos complexos (como circulação sanguínea, ventilação e dinâmica cardíaca). A linguagem Julia se destaca por resolver o problema das duas linguagens (two-language problem): oferece a velocidade de execução do C com a facilidade e expressividade matemática do Python.</p><h4>Resolvendo Equações Diferenciais em Julia</h4><p>Abaixo está um script em Julia demonstrando a definição do sistema clássico de FitzHugh-Nagumo, utilizado para modelar o potencial de ação em neurônios e células cardíacas:</p><pre><code class=\"language-julia\"># Exemplo de potencial de ação (FitzHugh-Nagumo) em Julia\nusing DifferentialEquations\nusing Plots\n\nfunction fitzhugh_nagumo!(du, u, p, t)\n    v, w = u\n    a, b, i = p\n    du[1] = v - (v^3)/3 - w + i\n    du[2] = 0.08 * (v + a - b * w)\nend\n\n# Condições iniciais e parâmetros [a, b, estímulo]\nu0 = [-1.0, -0.5]\ntspan = (0.0, 100.0)\np = [0.7, 0.8, 0.5]\n\nprob = ODEProblem(fitzhugh_nagumo!, u0, tspan, p)\nsol = solve(prob)\nplot(sol, vars=(1, 2), title=\"Trajetória de Fase Cardíaca\")</code></pre>"
+  },
+  {
+    "id": "julia-sim",
+    "title": "Simulação Fisiológica",
+    "language": "Julia",
+    "subfolder": null,
+    "order": 2,
+    "content": "<p>Modelamos o processo de difusão de oxigênio nos alvéolos capilares pulmonares. Esta simulação em malha fechada valida como o organismo regula o nível de saturação de oxigênio arterial (SaO2) sob variações barométricas.</p><h4>Execução do Solver de Simulação</h4><p>O script bash abaixo demonstra como instanciar o ambiente e executar a simulação a partir do terminal:</p><pre><code class=\"language-bash\"># Configurar dependências e baixar pacotes da simulação\n$ julia --project=. -e 'using Pkg; Pkg.instantiate()'\nInstantiating project... Done!\n\n# Executar simulação de saturação capilar por 60 segundos\n$ julia scripts/simular_pulmao.jl --tempo=60 --oxigenio=98\n[SIMULAÇÃO] Carregando modelo pulmonar (malha fechada)... OK\n[SIMULAÇÃO] Rodando passo de integração Runge-Kutta 4...\n[SIMULAÇÃO] Simulação concluída com sucesso.\nSalvando gráfico em saidas/pulmao_sim.png... OK</code></pre>"
+  },
+  {
+    "id": "python-ecg",
+    "title": "Classificação de ECG",
+    "language": "Python",
+    "subfolder": "Aprendizado de Máquina",
+    "order": 1,
+    "content": "<p>Utilizamos bibliotecas tradicionais de inteligência artificial em Python para extrair características temporais e de frequência (variabilidade da frequência cardíaca - HRV) dos sinais brutos obtidos por sensores de eletrocardiografia, classificando batimentos cardíacos normais e anômalos.</p><h4>Algoritmo Random Forest Classifier</h4><p>Script Python clássico usando Scikit-Learn para treinar e avaliar um classificador de batimentos cardíacos:</p><pre><code class=\"language-python\">import numpy as np\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import classification_report\n\n# Carregar features extraídas do banco de dados MIT-BIH\nfeatures = np.load(\"data/ecg_features.npy\")\nlabels = np.load(\"data/ecg_labels.npy\")\n\n# Dividir conjuntos em treino e teste (80/20)\nX_train, X_test, y_train, y_test = train_test_split(\n    features, labels, test_size=0.2, random_state=42\n)\n\n# Inicializar classificador\nclf = RandomForestClassifier(n_estimators=100, random_state=42)\nclf.fit(X_train, y_train)\n\n# Avaliar performance\nacuracia = clf.score(X_test, y_test)\nprint(f\"Acurácia Geral: {acuracia:.2%}\\n\")\nprint(classification_report(y_test, clf.predict(X_test)))</code></pre>"
+  },
+  {
+    "id": "python-arrhythmia",
+    "title": "Detecção de Arritmias (CNN)",
+    "language": "Python",
+    "subfolder": "Aprendizado de Máquina",
+    "order": 2,
+    "content": "<p>Redes Neurais Convolucionais de uma dimensão (Conv1D) são excelentes para analisar séries temporais biológicas diretas, sem necessidade de extração manual de características. Elas capturam padrões morfológicos no sinal de ECG para identificar fibrilação atrial e outras arritmias.</p><h4>Treinamento da Rede Convolucional</h4><p>Abaixo está o feedback do console de treinamento do modelo escrito em TensorFlow / Keras:</p><pre><code class=\"language-bash\"># Iniciar script de treinamento usando aceleração de GPU\n$ python3 src/train_cnn.py --epochs=50 --batch-size=32\nUsing TensorFlow/Keras backend with CUDA support.\nGPU Device: NVIDIA Jetson Xavier NX - Initialized.\nCarregando banco de dados de arritmias (MIT-BIH)... OK\nConstruindo arquitetura Conv1D -> MaxPool1D -> Dropout -> Dense.\n\nEpoch 1/50 - loss: 0.4231 - accuracy: 0.8845 - 2s/epoch\nEpoch 10/50 - loss: 0.1102 - accuracy: 0.9678 - 1s/epoch\nEpoch 50/50 - loss: 0.0345 - accuracy: 0.9912 - 1s/epoch\n\n[INFO] Treinamento Concluído. Acurácia de Validação: 98.94%\n[INFO] Salvando pesos do modelo em modelos/arrhythmia_detector_v1.h5... OK</code></pre>"
+  }
+]
