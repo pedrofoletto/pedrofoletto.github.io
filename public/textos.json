@@ -1,6 +1,6 @@
 {
   "hero-lead": "Focado no desenvolvimento de tecnologia e automação para a área da saúde.",
-  "hero-email": "pedro@exemplo.com",
+  "hero-email": "pedrorfoletto@gmail.com",
   "sobre-p1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   "sobre-p2": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
   "sobre-p3": "Curabitur non nulla ut libero vulputate elementum. Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.",
@@ -21,7 +21,8 @@
   "proj-subtitle": "Códigos de simulação e ideias que venho desenvolvendo no laboratório.",
   "github-subtitle": "Minhas contribuições em projetos de automação e saúde no último ano.",
   "contact-lead": "Bora trocar uma ideia sobre controle, robótica na saúde ou oportunidades de estágio e desenvolvimento.",
-  "link-linkedin": "https://linkedin.com",
-  "link-github": "https://github.com",
-  "link-kaggle": "https://kaggle.com"
+  "link-linkedin": "https://br.linkedin.com/in/pedro-foletto-21761a358",
+  "link-github": "https://github.com/pedrofoletto",
+  "link-kaggle": "https://kaggle.com",
+  "link-lattes": "http://lattes.cnpq.br/"
 }

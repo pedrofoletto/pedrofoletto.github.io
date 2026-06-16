@@ -1,0 +1,84 @@
+/* ==========================================================================
+   SIMULADOR EMBUTIDO (ESTILO JUPYTER NOTEBOOK)
+   ========================================================================== */
+.embedded-sim-container {
+  margin: 35px 0;
+  border-top: 1px dashed var(--border);
+  border-bottom: 1px dashed var(--border);
+  padding: 30px 0;
+}
+
+.playground-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.sim-display h4, .code-panel h4 {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 6px;
+  color: var(--muted-foreground);
+}
+
+#pid-canvas {
+  width: 100%;
+  height: 200px;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.sim-display, .code-panel {
+  min-width: 0;
+}
+
+.sim-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.control-group label {
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.control-group input[type="range"] {
+  width: 100%;
+  accent-color: var(--primary);
+  background: var(--border);
+  height: 4px;
+  border-radius: var(--radius);
+  outline: none;
+  cursor: pointer;
+}
+
+.code-panel pre {
+  padding: 12px;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--foreground);
+}
+
+.code-panel span {
+  color: var(--primary);
+  font-weight: bold;
+}

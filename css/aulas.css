@@ -1,0 +1,502 @@
+/* ==========================================================================
+   ESTILOS DA SEÇÃO DE AULAS (ESTILO DOCUMENTAÇÃO LIMPA)
+   ========================================================================== */
+.container-wide {
+  max-width: 100%;
+  width: 96%;
+  padding: 0 40px;
+  margin: 0 auto;
+}
+
+.aulas-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: 0px;
+  align-items: start;
+  margin-top: 30px;
+}
+
+.aulas-sidebar {
+  position: sticky;
+  top: 100px;
+  padding: 10px 30px 10px 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+
+.aulas-content {
+  border-left: 1px solid var(--border);
+  padding-left: 40px;
+  min-width: 0;
+}
+
+/* Ocultar barra de rolagem por padrão no sidebar */
+.aulas-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.aulas-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.aulas-sidebar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 0;
+}
+/* Mostrar barra de rolagem apenas no hover */
+.aulas-sidebar:hover::-webkit-scrollbar-thumb {
+  background: var(--border);
+}
+
+.sidebar-title {
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  color: var(--muted-foreground);
+}
+
+.tree-menu {
+  list-style: none;
+  padding-left: 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.tree-branch {
+  margin-bottom: 14px;
+}
+
+.tree-branch:last-child {
+  margin-bottom: 0;
+}
+
+.tree-folder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  color: var(--foreground);
+  margin-bottom: 6px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.tree-folder i {
+  color: var(--primary);
+}
+
+.tree-items {
+  list-style: none;
+  padding-left: 16px;
+  border-left: 1px dashed var(--border);
+  margin-left: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: max-height 0.2s ease-out;
+}
+
+.tree-items.collapsed {
+  display: none;
+}
+
+.tree-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted-foreground);
+  text-decoration: none;
+  padding: 4px 6px;
+  transition: var(--transition-fast);
+}
+
+.tree-link i {
+  font-size: 0.95rem;
+}
+
+.tree-link:hover, .tree-link.active-link {
+  color: var(--primary);
+  background: var(--muted);
+  font-weight: bold;
+}
+
+.tree-link.disabled-link {
+  color: var(--muted-foreground) !important;
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  font-weight: normal !important;
+  background: none !important;
+}
+
+/* Conteúdo das Aulas */
+.aula-modulo {
+  display: none;
+}
+
+.aula-modulo.active-modulo {
+  display: block;
+}
+
+.aula-article {
+  margin-bottom: 60px;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.aula-article:last-child {
+  margin-bottom: 0;
+}
+
+.aula-article h3 {
+  font-family: var(--font-sans);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  margin-top: 6px;
+}
+
+.aula-article h4 {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.aula-article p {
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+}
+
+/* Terminal Mockup */
+.terminal-mockup {
+  background: #181818;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 20px 0;
+  overflow: hidden;
+  box-shadow: 2px 2px 0 var(--border);
+}
+
+.terminal-header {
+  background: #252525;
+  border-bottom: 1px solid #333333;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.terminal-dot {
+  width: 8px;
+  height: 8px;
+  background: #333;
+  border: 1px solid #444444;
+  border-radius: 0;
+}
+
+.terminal-title {
+  color: #888;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+}
+
+.terminal-body {
+  padding: 16px;
+  margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  overflow-x: auto;
+}
+
+.terminal-body code {
+  color: #e2e8f0;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+/* Classes utilitárias do terminal */
+.term-prompt {
+  color: #72e3ad !important;
+  font-weight: bold;
+}
+
+.term-cmd {
+  color: #f59e0b !important;
+  font-weight: bold;
+}
+
+.term-out {
+  color: #a3a3a3 !important;
+}
+
+/* Estilos gerais para Prism.js */
+pre[class*="language-"] {
+  background: #181818 !important;
+  color: #e2e8f0 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.82rem !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--border) !important;
+  margin: 20px 0 !important;
+  padding: 16px !important;
+  box-shadow: 2px 2px 0 var(--border);
+  overflow: auto;
+}
+
+code[class*="language-"] {
+  background: transparent !important;
+  color: inherit !important;
+  font-family: var(--font-mono) !important;
+  font-size: inherit !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Cores customizadas para realce (Tomorrow theme overrides) */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: #6b7280 !important;
+  font-style: italic;
+}
+
+.token.punctuation {
+  color: #94a3b8 !important;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: #f59e0b !important;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: #eab308 !important;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: #cbd5e1 !important;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: #72e3ad !important;
+  font-weight: bold;
+}
+
+.token.function,
+.token.class-name {
+  color: #60a5fa !important;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+  color: #f43f5e !important;
+}
+
+/* Responsividade das Aulas */
+@media (max-width: 850px) {
+  .container-wide {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .aulas-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  
+  .aulas-sidebar {
+    position: static;
+    margin-bottom: 30px;
+    top: 0;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0 20px 0;
+  }
+  
+  .aulas-content {
+    border-left: none;
+    padding-left: 0;
+    min-width: 0;
+  }
+}
+
+/* ==========================================================================
+   MODAL DE ADMINISTRAÇÃO LOCAL (CRIAR NOVAS AULAS)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 700px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: 4px 4px 0 var(--border);
+  animation: modalFadeIn 0.25s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin: 0;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: var(--transition-fast);
+}
+
+.modal-close-btn:hover {
+  color: var(--foreground);
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  padding: 10px 14px;
+  outline: none;
+  transition: var(--transition-fast);
+  width: 100%;
+}
+
+.form-group textarea {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+  border-top: 1px dashed var(--border);
+  padding-top: 20px;
+}
+
+/* Responsividade do modal */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .modal-content {
+    padding: 20px;
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
