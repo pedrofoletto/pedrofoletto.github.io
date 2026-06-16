@@ -358,32 +358,23 @@
       
       <!-- Portal de Seleção Inicial de Assunto -->
       <div class="container" id="aulas-portal-container">
-        <div class="projects-grid" style="margin-top: 30px;">
-          <!-- Card Julia -->
-          <article class="technical-card subject-card" data-subject="Julia" style="cursor: pointer;">
-            <div class="project-header">
-              <span class="project-status status-concept">Computação Científica</span>
-              <span class="project-tech"><i class="devicon-julia-plain" style="font-size: 1.2rem;"></i> Julia</span>
-            </div>
-            <h3 class="project-title">Julia na Saúde</h3>
-            <p class="project-description">
-              Modelagem matemática de sistemas biológicos, simulações fisiológicas pulmonares em malha fechada e equações diferenciais.
-            </p>
-            <span class="post-read-more">[Estudar Módulo] -></span>
-          </article>
+        <!-- Área de Filtros de Tags para Aulas -->
+        <div id="aulas-filters-area">
+          <div style="margin-bottom: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <button id="toggle-aulas-tags-btn" class="btn" aria-expanded="false">
+              <i class="ph ph-funnel"></i> [Filtrar por Tags]
+            </button>
+            <button id="open-admin-modal-btn" class="btn" style="display: none;">
+              <i class="ph ph-plus-circle"></i> [Nova Aula]
+            </button>
+          </div>
+          <div class="blog-filters" id="aulas-tags-filters" style="display: none; margin-bottom: 30px;">
+            <!-- Injetado dinamicamente via JS -->
+          </div>
+        </div>
 
-          <!-- Card Python -->
-          <article class="technical-card subject-card" data-subject="Python" style="cursor: pointer;">
-            <div class="project-header">
-              <span class="project-status status-concept">Machine Learning</span>
-              <span class="project-tech"><i class="devicon-python-plain" style="font-size: 1.2rem;"></i> Python</span>
-            </div>
-            <h3 class="project-title">Python e IA Médica</h3>
-            <p class="project-description">
-              Classificação inteligente de sinais de eletrocardiograma (ECG) usando Random Forest e Redes Neurais Convolucionais (Conv1D).
-            </p>
-            <span class="post-read-more">[Estudar Módulo] -></span>
-          </article>
+        <div class="projects-grid" id="aulas-subjects-grid">
+          <p class="mono-text">Carregando módulos...</p>
         </div>
       </div>
       
@@ -410,6 +401,69 @@
         </div>
       </div>
     </section>
+  </div>
+
+  <!-- Modal de Criação de Aulas (Painel Admin Local) -->
+  <div id="admin-aula-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content technical-card">
+      <div class="modal-header">
+        <h3>[Criar Nova Aula]</h3>
+        <button id="close-admin-modal-btn" class="modal-close-btn" aria-label="Fechar modal">&times;</button>
+      </div>
+      <form id="admin-aula-form" class="modal-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="aula-form-title">Título da Aula</label>
+            <input type="text" id="aula-form-title" placeholder="Ex: Introdução ao MATLAB" required>
+          </div>
+          <div class="form-group">
+            <label for="aula-form-slug">Slug (ID do arquivo / URL)</label>
+            <input type="text" id="aula-form-slug" placeholder="Ex: matlab-intro" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="aula-form-lang">Linguagem</label>
+            <select id="aula-form-lang" required>
+              <option value="Python">Python</option>
+              <option value="Julia">Julia</option>
+              <option value="MATLAB">MATLAB</option>
+              <option value="C">C</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="aula-form-subfolder">Subpasta (Opcional)</label>
+            <input type="text" id="aula-form-subfolder" placeholder="Ex: Controle Linear">
+          </div>
+          <div class="form-group">
+            <label for="aula-form-order">Ordem no Menu</label>
+            <input type="number" id="aula-form-order" value="1" min="1" step="1">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="aula-form-subject-title">Título do Módulo / Assunto (Opcional)</label>
+            <input type="text" id="aula-form-subject-title" placeholder="Ex: Python e IA Médica">
+          </div>
+          <div class="form-group">
+            <label for="aula-form-summary">Resumo / Descrição do Módulo (Opcional)</label>
+            <input type="text" id="aula-form-summary" placeholder="Ex: Conceitos e práticas sobre esta matéria...">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="aula-form-content">Conteúdo (Markdown)</label>
+          <textarea id="aula-form-content" rows="10" placeholder="Escreva a aula usando Markdown... Use estritamente 'Lorem Ipsum' em textos temporários/fictícios." required></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancel-aula-btn" class="btn">[Cancelar]</button>
+          <button type="submit" class="btn active">[Salvar e Compilar]</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <!-- Footer -->
