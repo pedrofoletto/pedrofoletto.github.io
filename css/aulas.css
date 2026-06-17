@@ -500,3 +500,71 @@ code[class*="language-"] {
     transform: scale(1);
   }
 }
+
+/* Marca d'água translúcida de fundo com rotação e escala no hover */
+.subject-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-watermark {
+  position: absolute;
+  bottom: -28px;
+  right: -24px;
+  font-size: 9rem;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
+}
+
+.subject-card:hover .card-watermark {
+  transform: scale(1.18) rotate(-12deg);
+  opacity: 0.12;
+}
+
+/* Assegura que o conteúdo de texto renderize à frente da marca d'água */
+.subject-card .project-header,
+.subject-card .project-title,
+.subject-card .project-description,
+.subject-card .post-read-more {
+  position: relative;
+  z-index: 1;
+}
+
+/* Lista interna de aulas no card */
+.card-lessons-list {
+  margin-top: 16px;
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  position: relative;
+  z-index: 2; /* Fica acima da marca d'água */
+}
+
+.card-lessons-list-title {
+  font-weight: bold;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.card-lesson-link {
+  color: var(--foreground);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.card-lesson-link:hover {
+  color: var(--primary);
+  transform: translateX(4px);
+}

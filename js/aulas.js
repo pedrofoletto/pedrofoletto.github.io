@@ -44,22 +44,26 @@ function renderAulasPortal(aulas) {
   const languageMeta = {
     python: {
       icon: 'devicon-python-plain',
-      title: 'Python e IA Médica',
+      color: '#3776ab',
+      title: 'Inteligência Artificial na Saúde',
       desc: 'Classificação inteligente de sinais de eletrocardiograma (ECG) usando Random Forest e Redes Neurais Convolucionais (Conv1D).'
     },
     julia: {
       icon: 'devicon-julia-plain',
-      title: 'Julia na Automação',
+      color: '#9558b2',
+      title: 'Modelagem Física e Simulação',
       desc: 'Computação científica de alta performance para modelagem física e simulação de sistemas biológicos.'
     },
     matlab: {
       icon: 'devicon-matlab-plain',
-      title: 'MATLAB e Controle',
+      color: '#d63a06',
+      title: 'Controle e Bioinstrumentação',
       desc: 'Análise de estabilidade, resposta em frequência e sintonia de controladores PID para bioinstrumentação.'
     },
     c: {
       icon: 'devicon-c-plain',
-      title: 'Programação C e Firmware',
+      color: '#3f51b5',
+      title: 'Firmware & Baixo Nível',
       desc: 'Desenvolvimento de firmware de baixo nível para microcontroladores e dispositivos médicos.'
     }
   };
@@ -98,8 +102,25 @@ function renderAulasPortal(aulas) {
       desc: `Anotações e guias práticos sobre programação e conceitos em ${lang}.`
     };
 
-    const finalTitle = customSubjectTitle || meta.title;
+    const finalTitle = customSubjectTitle && customSubjectTitle.toLowerCase() !== lang.toLowerCase()
+      ? customSubjectTitle
+      : meta.title;
     const finalDesc = customSummary || meta.desc;
+
+    // Gera a lista de aulas internas para exibição no card
+    let lessonsListHtml = '';
+    if (langAulas.length > 0) {
+      lessonsListHtml = `
+        <div class="card-lessons-list">
+          <span class="card-lessons-list-title">[Conteúdo do Módulo]</span>
+          ${langAulas.map(aula => `
+            <a href="#/${aula.id}" class="card-lesson-link">
+              <i class="ph ph-file-text"></i> <span>${escapeHTML(aula.title)}</span>
+            </a>
+          `).join('')}
+        </div>
+      `;
+    }
 
     const article = document.createElement('article');
     article.className = 'technical-card subject-card';
@@ -107,14 +128,12 @@ function renderAulasPortal(aulas) {
     article.style.cursor = 'pointer';
     
     article.innerHTML = `
-      <div class="project-header">
-        <span class="project-tech">
-          <i class="${meta.icon}" style="font-size: 1.2rem;"></i> ${lang}
-        </span>
+      <div class="card-watermark" style="color: ${meta.color || 'var(--primary)'};">
+        <i class="${meta.icon}"></i>
       </div>
-      <h3 class="project-title">${escapeHTML(finalTitle)}</h3>
-      <p class="project-description">${escapeHTML(finalDesc)}</p>
-      <span class="post-read-more">[Estudar Módulo] -></span>
+      <h3 class="project-title" style="margin-top: 0; font-size: 1.3rem;">${escapeHTML(finalTitle)}</h3>
+      <p class="project-description" style="margin-top: 8px; font-size: 0.9rem; line-height: 1.6;">${escapeHTML(finalDesc)}</p>
+      ${lessonsListHtml}
     `;
 
     portalGrid.appendChild(article);
@@ -354,7 +373,7 @@ export function handleAulaRouting() {
   const portalContainer = document.getElementById('aulas-portal-container');
   const layoutContainer = document.getElementById('aulas-layout-container');
 
-  if (!hash || !hash.startsWith('#/') || hash === '#/aulas') {
+  if (!hash || !hash.startsWith('#/') || ['inicio', 'portfolio', 'repositorios', 'aulas'].includes(hash.slice(2))) {
     if (headerContainer) headerContainer.style.display = 'block';
     if (portalContainer) portalContainer.style.display = 'block';
     if (layoutContainer) layoutContainer.style.display = 'none';
@@ -416,6 +435,10 @@ export function handleAulaRouting() {
 export function checkInitialHash() {
   const hash = window.location.hash;
   if (hash.startsWith('#/')) {
+    const route = hash.slice(2);
+    if (['inicio', 'portfolio', 'repositorios', 'aulas'].includes(route)) {
+      return;
+    }
     if (typeof window.switchTab === 'function') {
       window.switchTab('aulas', true);
     }
@@ -543,6 +566,9 @@ export function initAulas() {
 
     const subjectCard = e.target.closest('.subject-card');
     if (subjectCard) {
+      if (e.target.closest('.card-lesson-link')) {
+        return;
+      }
       const subject = subjectCard.getAttribute('data-subject');
       const firstAula = aulasData.find(a => a.language.toLowerCase() === subject.toLowerCase());
       if (firstAula) {

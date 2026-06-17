@@ -1,5 +1,4 @@
 import { escapeHTML, sanitizeHTML } from './utils.js';
-import { injectPidSimulator } from './simulator.js';
 
 const repositoriosListContainer = document.getElementById('repositorios-list');
 const singleRepositorioView = document.getElementById('single-repositorio-view');
@@ -41,13 +40,10 @@ function renderReposList(posts) {
     const card = document.createElement('article');
     card.className = `technical-card blog-post-card`;
 
-    const actionText = '[Ver Detalhes] ->';
-
     card.innerHTML = `
       <div class="post-meta">${escapeHTML(post.data)}</div>
       <h3 class="project-title">${escapeHTML(post.titulo)}</h3>
       <p class="project-description">${escapeHTML(post.resumo)}</p>
-      <span class="post-read-more">${escapeHTML(actionText)}</span>
     `;
     card.addEventListener('click', () => showSingleRepositorio(post));
     repositoriosListContainer.appendChild(card);
@@ -145,12 +141,6 @@ function showSingleRepositorio(post) {
   }
   if (repositorioBodyContainer) {
     repositorioBodyContainer.innerHTML = sanitizeHTML(post.conteudo + linksHtml);
-
-    // Verifica se o artigo requer a injeção do simulador PID
-    const pidMount = document.getElementById('interactive-pid-mount');
-    if (pidMount) {
-      injectPidSimulator(pidMount);
-    }
   }
   window.scrollTo(0, 0);
 }

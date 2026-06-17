@@ -8,6 +8,23 @@ export async function loadGithubContributions() {
 
   if (!githubGraph) return;
 
+  if (!githubGraph.dataset.delegated) {
+    githubGraph.addEventListener('mouseover', (e) => {
+      const cell = e.target.closest('.github-cell');
+      if (cell && githubTooltip) {
+        githubTooltip.innerText = cell.getAttribute('data-tooltip') || '';
+      }
+    });
+
+    githubGraph.addEventListener('mouseout', (e) => {
+      const cell = e.target.closest('.github-cell');
+      if (cell && githubTooltip) {
+        githubTooltip.innerText = '';
+      }
+    });
+    githubGraph.dataset.delegated = 'true';
+  }
+
   try {
     const res = await fetch(`https://github-contributions-api.deno.dev/${GITHUB_USERNAME}.json?flat=true`);
     if (!res.ok) throw new Error("Erro na API");
@@ -65,14 +82,6 @@ export async function loadGithubContributions() {
 
       const commitsStr = day.contributionCount === 1 ? '1 contribuição' : `${day.contributionCount} contribuições`;
       cell.setAttribute('data-tooltip', `${commitsStr} em ${formattedDate}`);
-
-      cell.addEventListener('mouseenter', () => {
-        if (githubTooltip) githubTooltip.innerText = cell.getAttribute('data-tooltip');
-      });
-
-      cell.addEventListener('mouseleave', () => {
-        if (githubTooltip) githubTooltip.innerText = '';
-      });
 
       fragment.appendChild(cell);
     });

@@ -23,6 +23,19 @@ export default defineConfig({
       name: 'local-api-middleware',
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
+          // Restringe acesso apenas a conexões locais
+          const remoteAddr = req.socket.remoteAddress || '';
+          const host = req.headers.host || '';
+          const isLocalhost = remoteAddr === '::1' || remoteAddr === '127.0.0.1' || remoteAddr === '::ffff:127.0.0.1' ||
+                              host.startsWith('localhost:') || host.startsWith('127.0.0.1:') || host === 'localhost' || host === '127.0.0.1';
+
+          if (!isLocalhost && (req.url.startsWith('/api/criar-aula') || req.url.startsWith('/api/apagar-aula') || req.url.startsWith('/api/salvar-texto'))) {
+            res.statusCode = 403;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: 'Acesso negado. Apenas conexões locais são permitidas.' }));
+            return;
+          }
+
           // Grava todo request recebido no log para diagnosticar o tráfego da API local
           try {
             fs.appendFileSync(path.join(__dirname, 'log-api.txt'), `[${new Date().toISOString()}] Request recebido: ${req.method} ${req.url}\n`, 'utf-8');

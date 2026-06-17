@@ -2,7 +2,6 @@ import { initTheme } from './js/theme.js';
 import { initTabs } from './js/tabs.js';
 import { initRepos, loadRepos } from './js/repos.js';
 import { initAulas, loadAulas, checkInitialHash } from './js/aulas.js';
-import { initSimulator } from './js/simulator.js';
 import { initTypewriter } from './js/typewriter.js';
 import { initAccordion } from './js/accordion.js';
 import { initGithub } from './js/github.js';
@@ -13,17 +12,17 @@ document.addEventListener('DOMContentLoaded', () => {
   initTabs();
   initRepos();
   initAulas();
-  initSimulator();
   initTypewriter();
   initAccordion();
   initGithub();
   initEditor();
 
-  // Inicialização de Dados
-  loadTextos().then(() => {
-    loadRepos();
-    loadAulas().then(() => {
-      checkInitialHash();
-    });
+  // Inicialização de Dados em paralelo
+  Promise.all([
+    loadTextos(),
+    loadRepos(),
+    loadAulas()
+  ]).then(() => {
+    checkInitialHash();
   });
 });

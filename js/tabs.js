@@ -36,11 +36,33 @@ export function switchTab(tabId, avoidRouting = false) {
     }
   }
 
-  if (tabId === 'aulas' && !avoidRouting) {
-    window.location.hash = '#/aulas';
+  if (!avoidRouting) {
+    if (tabId === 'portfolio') {
+      window.location.hash = '#/inicio';
+    } else if (tabId === 'repositorios') {
+      window.location.hash = '#/repositorios';
+    } else if (tabId === 'aulas') {
+      window.location.hash = '#/aulas';
+    }
   }
 
   window.scrollTo(0, 0);
+}
+
+export function handleRouting() {
+  const hash = window.location.hash;
+
+  if (!hash || hash === '#/inicio' || hash === '#/portfolio' || hash === '#portfolio') {
+    switchTab('portfolio', true);
+  } else if (hash === '#/repositorios' || hash === '#repositorios') {
+    switchTab('repositorios', true);
+  } else if (hash === '#/aulas' || hash.startsWith('#/')) {
+    const aulaId = hash.slice(2);
+    // Se for 'aulas' ou um ID de aula (qualquer hash que não seja de outra aba)
+    if (aulaId === 'aulas' || (!['inicio', 'portfolio', 'repositorios'].includes(aulaId))) {
+      switchTab('aulas', true);
+    }
+  }
 }
 
 // Expõe switchTab globalmente
@@ -53,6 +75,12 @@ export function initTabs() {
       switchTab(target);
     });
   });
+
+  // Escuta mudanças na hash para atualizar a aba ativa
+  window.addEventListener('hashchange', handleRouting);
+
+  // Executa o roteamento inicial
+  handleRouting();
 
   if (menuToggle && navbar && toggleIcon) {
     menuToggle.addEventListener('click', () => {
