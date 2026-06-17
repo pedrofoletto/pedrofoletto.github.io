@@ -7,6 +7,7 @@
 
 .tab-content.active-tab {
   display: block;
+  flex: 1;
 }
 
 /* ==========================================================================
@@ -117,9 +118,9 @@
 }
 
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .project-header {
@@ -158,6 +159,7 @@
   font-family: var(--font-sans);
   font-size: 1.25rem;
   font-weight: 700;
+  margin-top: 0;
   margin-bottom: 10px;
 }
 
@@ -414,42 +416,63 @@
   padding: 60px 0;
 }
 .stack-grid {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 16px 28px;
   margin-top: 24px;
   justify-content: flex-start;
+  align-items: center;
+}
+.stack-grid::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px dashed var(--border);
+  z-index: 1;
+  transform: translateY(-50%);
 }
 .stack-item {
   position: relative;
-  width: 72px;
-  height: 72px;
-  display: flex;
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--muted);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  font-size: 1.8rem;
+  border-radius: 50%;
   color: var(--muted-foreground);
+  background: var(--background);
+  border: none;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition: transform var(--transition-fast), color var(--transition-fast);
 }
 .stack-item:hover {
-  transform: translateY(-4px);
-  background: var(--card);
+  transform: translateY(-2px);
   z-index: 110;
+}
+.stack-item i,
+.stack-item svg {
+  font-size: 1.35rem;
+  transition: transform var(--transition-fast);
+}
+.stack-item:hover i,
+.stack-item:hover svg {
+  transform: scale(1.2);
 }
 /* Balão explicativo (Tooltip) abaixo do ícone */
 .stack-item::after {
   content: attr(data-tech);
   position: absolute;
-  top: 120%;
+  top: 130%;
   left: 50%;
   transform: translateX(-50%) translateY(-8px);
-  background: var(--card);
+  background: var(--background);
   color: var(--foreground);
-  border: 1px solid var(--border);
+  border: 1px dashed var(--border);
   padding: 6px 12px;
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -458,37 +481,31 @@
   pointer-events: none;
   transition: opacity 0.15s ease, transform 0.15s ease;
   z-index: 100;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: var(--radius);
+  box-shadow: none;
+  border-radius: 0px;
 }
-.stack-item::before {
-  content: "";
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-8px);
-  border-width: 0 6px 6px;
-  border-style: solid;
-  border-color: transparent transparent var(--border);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-  z-index: 101;
-}
-.stack-item:hover::after,
-.stack-item:hover::before {
+.stack-item:hover::after {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
 /* Cores específicas no hover da stack */
-.stack-item.tech-c:hover { color: #3f51b5; border-color: #3f51b5; }
-.stack-item.tech-cpp:hover { color: #00599c; border-color: #00599c; }
-.stack-item.tech-julia:hover { color: #9558b2; border-color: #9558b2; }
-.stack-item.tech-ada:hover { color: #002e5d; border-color: #002e5d; }
-.stack-item.tech-python:hover { color: #3776ab; border-color: #3776ab; }
-.stack-item.tech-arduino:hover { color: #00979d; border-color: #00979d; }
-.stack-item.tech-git:hover { color: #f05032; border-color: #f05032; }
-.stack-item.tech-matlab:hover { color: #d63a06; border-color: #d63a06; }
+.stack-item.tech-c:hover { color: #3f51b5; }
+.stack-item.tech-cpp:hover { color: #00599c; }
+.stack-item.tech-julia:hover { color: #9558b2; }
+.stack-item.tech-ada:hover { color: #002e5d; }
+.stack-item.tech-python:hover { color: #3776ab; }
+.stack-item.tech-arduino:hover { color: #00979d; }
+.stack-item.tech-git:hover { color: #f05032; }
+.stack-item.tech-matlab:hover { color: #d63a06; }
+
+@media (max-width: 600px) {
+  .stack-grid::before {
+    display: none !important;
+  }
+  .stack-item {
+    background: transparent !important;
+  }
+}
 
 .ada-logo {
   display: block;

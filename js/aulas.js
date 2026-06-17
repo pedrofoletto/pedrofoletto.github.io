@@ -131,9 +131,11 @@ function renderAulasPortal(aulas) {
       <div class="card-watermark" style="color: ${meta.color || 'var(--primary)'};">
         <i class="${meta.icon}"></i>
       </div>
-      <h3 class="project-title" style="margin-top: 0; font-size: 1.3rem;">${escapeHTML(finalTitle)}</h3>
-      <p class="project-description" style="margin-top: 8px; font-size: 0.9rem; line-height: 1.6;">${escapeHTML(finalDesc)}</p>
-      ${lessonsListHtml}
+      <div class="card-body">
+        <h3 class="project-title" style="margin-top: 0; font-size: 1.3rem;">${escapeHTML(finalTitle)}</h3>
+        <p class="project-description" style="margin-top: 8px; font-size: 0.9rem; line-height: 1.6;">${escapeHTML(finalDesc)}</p>
+        ${lessonsListHtml}
+      </div>
     `;
 
     portalGrid.appendChild(article);

@@ -12,21 +12,38 @@ section {
   border-bottom: none;
 }
 
-/* Cards Técnicos e Sólidos */
+/* Cards Técnicos - Estilo Catálogo de Duas Colunas (Sem Caixas) */
 .technical-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  transition: var(--transition-fast);
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--border);
+  border-radius: 0px;
+  padding: 24px 0;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 24px;
+  align-items: start;
+  transition: padding-left var(--transition-fast), color var(--transition-fast);
   position: relative;
-  display: flex;
-  flex-direction: column;
 }
 
 .technical-card:hover {
-  border-color: var(--muted-foreground);
-  box-shadow: 2px 2px 0px var(--border);
+  padding-left: 12px;
+}
+
+.technical-card:hover .project-title {
+  color: var(--primary);
+}
+
+@media (max-width: 600px) {
+  .technical-card {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 18px 0;
+  }
+  .technical-card:hover {
+    padding-left: 0;
+  }
 }
 
 /* Botões Estilo Bracket [ ] / Terminal */
@@ -199,11 +216,10 @@ nav {
    CONTATO & FOOTER
    ========================================================================== */
 .contact-box {
-  border: 1px solid var(--border);
-  padding: 40px;
+  border: none;
+  padding: 40px 0;
   text-align: center;
-  border-radius: var(--radius);
-  background: var(--card);
+  background: transparent;
 }
 
 .contact-box h2 {

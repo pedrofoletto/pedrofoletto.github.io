@@ -42,8 +42,10 @@ function renderReposList(posts) {
 
     card.innerHTML = `
       <div class="post-meta">${escapeHTML(post.data)}</div>
-      <h3 class="project-title">${escapeHTML(post.titulo)}</h3>
-      <p class="project-description">${escapeHTML(post.resumo)}</p>
+      <div class="card-body">
+        <h3 class="project-title">${escapeHTML(post.titulo)}</h3>
+        <p class="project-description">${escapeHTML(post.resumo)}</p>
+      </div>
     `;
     card.addEventListener('click', () => showSingleRepositorio(post));
     repositoriosListContainer.appendChild(card);
