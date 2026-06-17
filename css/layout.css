@@ -166,6 +166,7 @@ nav {
   padding: 6px 12px;
   border-radius: var(--radius);
   transition: var(--transition-fast);
+  text-decoration: none;
 }
 
 .nav-tab-btn:hover, .nav-tab-btn.active {

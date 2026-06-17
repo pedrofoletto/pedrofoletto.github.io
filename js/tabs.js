@@ -1,6 +1,4 @@
-import { handleAulaRouting } from './aulas.js';
-
-const tabButtons = document.querySelectorAll('.nav-tab-btn');
+const tabButtons = document.querySelectorAll('.nav-tab-btn[data-target]');
 const tabContents = document.querySelectorAll('.tab-content');
 
 const menuToggle = document.getElementById('menu-toggle');
@@ -41,8 +39,6 @@ export function switchTab(tabId, avoidRouting = false) {
       window.location.hash = '#/inicio';
     } else if (tabId === 'repositorios') {
       window.location.hash = '#/repositorios';
-    } else if (tabId === 'aulas') {
-      window.location.hash = '#/aulas';
     }
   }
 
@@ -56,12 +52,9 @@ export function handleRouting() {
     switchTab('portfolio', true);
   } else if (hash === '#/repositorios' || hash === '#repositorios') {
     switchTab('repositorios', true);
-  } else if (hash === '#/aulas' || hash.startsWith('#/')) {
-    const aulaId = hash.slice(2);
-    // Se for 'aulas' ou um ID de aula (qualquer hash que não seja de outra aba)
-    if (aulaId === 'aulas' || (!['inicio', 'portfolio', 'repositorios'].includes(aulaId))) {
-      switchTab('aulas', true);
-    }
+  } else {
+    // Redireciona qualquer hash inválido ou antigo de aulas para o início
+    switchTab('portfolio', true);
   }
 }
 
