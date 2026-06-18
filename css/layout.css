@@ -190,10 +190,14 @@ nav {
   text-decoration: none;
 }
 
-.nav-tab-btn:hover,
-.nav-tab-btn.active {
+.nav-tab-btn:hover {
   color: var(--foreground);
   background: var(--muted);
+}
+
+.nav-tab-btn.active {
+  color: var(--foreground);
+  background: none;
 }
 
 /* Botão Alternador de Tema */
@@ -241,36 +245,65 @@ nav {
 .contact-box {
   border: none;
   padding: 40px 0;
-  text-align: center;
+  text-align: left;
   background: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 60px;
 }
 
-.contact-box h2 {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-  margin-bottom: 12px;
+.contact-box-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* section-title dentro do flex: reduz margem para ficar próximo do parágrafo */
+.contact-title {
+  margin-bottom: 14px;
 }
 
 .contact-box p {
   color: var(--muted-foreground);
-  margin-bottom: 24px;
+  margin-bottom: 0;
+  max-width: 44ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .contact-items {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 32px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  padding-top: 8px;
 }
 
-.contact-items i {
-  font-size: 1.2rem;
+.contact-items .contact-link {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 10px;
+  transition: color var(--transition-fast);
+  border-bottom: 1px dashed transparent;
+  padding-bottom: 1px;
+  white-space: nowrap;
+}
+
+.contact-items .contact-link:hover {
+  color: var(--foreground);
+  border-bottom-color: var(--border);
+}
+
+.contact-items .contact-link i {
+  font-size: 1rem;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 /* Footer Simples */
@@ -371,18 +404,13 @@ footer {
 
   /* Seção de Contato organizada no mobile */
   .contact-box {
+    flex-direction: column;
+    gap: 24px;
     padding: 24px 16px;
   }
 
   .contact-items {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .contact-items .btn {
     width: 100%;
-    justify-content: center;
   }
 
   /* Dimensões adaptadas para o caderno de experimentos */

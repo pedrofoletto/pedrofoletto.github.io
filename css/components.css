@@ -179,25 +179,6 @@
   letter-spacing: 0.02em;
   margin-top: 0;
   margin-bottom: 10px;
-  /* Delight: seta indicadora de leitura */
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0;
-}
-
-.project-title::after {
-  content: ' →';
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: opacity 0.15s ease, transform 0.15s ease;
-  display: inline-block;
-}
-
-.technical-card:hover .project-title::after {
-  opacity: 1;
-  transform: translateX(2px);
 }
 
 .project-description {
