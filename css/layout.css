@@ -23,12 +23,8 @@ section {
   grid-template-columns: 140px 1fr;
   gap: 24px;
   align-items: start;
-  transition: padding-left var(--transition-fast), color var(--transition-fast);
+  transition: color var(--transition-fast);
   position: relative;
-}
-
-.technical-card:hover {
-  padding-left: 12px;
 }
 
 .technical-card:hover .project-title {
@@ -40,9 +36,6 @@ section {
     grid-template-columns: 1fr;
     gap: 8px;
     padding: 18px 0;
-  }
-  .technical-card:hover {
-    padding-left: 0;
   }
 }
 

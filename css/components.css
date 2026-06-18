@@ -454,9 +454,14 @@
   transform: translateY(-2px);
   z-index: 110;
 }
-.stack-item i,
+/* Aumenta o símbolo das linguagens na stack */
+.stack-item i {
+  font-size: 1.65rem;
+  transition: transform var(--transition-fast);
+}
 .stack-item svg {
-  font-size: 1.35rem;
+  width: 1.65rem;
+  height: 1.65rem;
   transition: transform var(--transition-fast);
 }
 .stack-item:hover i,
