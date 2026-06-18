@@ -19,9 +19,19 @@
   --radius: 0px;
   --notebook-grid: rgba(0, 98, 57, 0.04);
   
-  --font-sans: 'Outfit', sans-serif;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  --font-sans: 'Epilogue', 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
-  
+
+  /* Escala tipográfica modular (razão 1.25 — major third) */
+  --text-xs:   0.75rem;                           /* 12px — captions, badges */
+  --text-sm:   0.875rem;                          /* 14px — metadata, mono labels */
+  --text-base: 1rem;                              /* 16px — body */
+  --text-lg:   1.125rem;                          /* 18px — lead, subtitles */
+  --text-xl:   clamp(1.3rem, 2vw + 0.75rem, 1.8rem);   /* subheadings */
+  --text-2xl:  clamp(1.6rem, 3vw + 0.75rem, 2.4rem);   /* section titles */
+  --text-3xl:  clamp(2rem,   4vw + 1rem,    3rem);      /* hero h1 */
+
   --transition-fast: 0.15s ease;
   --transition-smooth: 0.25s ease;
 }
@@ -67,10 +77,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   line-height: 1.6;
-  font-size: 15px;
+  font-size: var(--text-base); /* 16px — mínimo de legibilidade */
   overflow-x: hidden;
   width: 100%;
   letter-spacing: 0.01em;
+  font-kerning: normal;
+  font-optical-sizing: auto;
   transition: color var(--transition-smooth);
   padding-top: 60px;
   display: flex;
@@ -82,6 +94,26 @@ body {
 /* Elementos Monospace */
 code, pre, .tech-tag, .stat-value, .project-tech, .badge, .mono-text, .nav-tab-btn, .terminal-datasheet {
   font-family: var(--font-mono);
+  letter-spacing: 0.02em; /* Mono legibility boost */
+}
+
+/* Elementos de Display (Headings principais) */
+.section-title,
+.hero-section h1,
+.notebook-heading-title {
+  font-family: var(--font-display);
+}
+
+/* Reduced Motion — respeitar preferência do sistema */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Scrollbar Simples */

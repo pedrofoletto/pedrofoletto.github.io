@@ -8,6 +8,11 @@ let reposPosts = [];
 let currentCategory = 'todos';
 
 export async function loadRepos() {
+  // Estado de loading
+  if (repositoriosListContainer) {
+    repositoriosListContainer.innerHTML = `<p class="mono-text github-loading-message">Carregando repositórios...</p>`;
+  }
+
   try {
     const response = await fetch('./posts.json');
     if (!response.ok) throw new Error('Falha ao carregar arquivo de repositórios.');
@@ -17,7 +22,11 @@ export async function loadRepos() {
   } catch (error) {
     console.error(error);
     if (repositoriosListContainer) {
-      repositoriosListContainer.innerHTML = `<p class="mono-text">Erro ao carregar os repositórios. Verifique posts.json.</p>`;
+      repositoriosListContainer.innerHTML = `
+        <div class="github-error-state">
+          <span class="mono-text">× Falha ao carregar os repositórios. Verifique o arquivo posts.json.</span>
+          <button class="btn" onclick="window.loadRepos()" style="margin-top: 12px;">[Tentar novamente]</button>
+        </div>`;
     }
   }
 }
@@ -32,7 +41,7 @@ function renderReposList(posts) {
   });
 
   if (filteredPosts.length === 0) {
-    repositoriosListContainer.innerHTML = `<p class="mono-text empty-blog-message" style="grid-column: 1/-1; text-align: center; padding: 40px 0;">Nenhum repositório encontrado com essa tag.</p>`;
+    repositoriosListContainer.innerHTML = `<p class="mono-text empty-blog-message">Nenhum repositório encontrado com essa tag.</p>`;
     return;
   }
 
@@ -40,11 +49,14 @@ function renderReposList(posts) {
     const card = document.createElement('article');
     card.className = `technical-card blog-post-card`;
 
+    const tagsHtml = (post.tags || []).map(t => `<span class="blog-card-tag">[#${escapeHTML(t)}]</span>`).join(' ');
+
     card.innerHTML = `
       <div class="post-meta">${escapeHTML(post.data)}</div>
       <div class="card-body">
         <h3 class="project-title">${escapeHTML(post.titulo)}</h3>
         <p class="project-description">${escapeHTML(post.resumo)}</p>
+        <div class="blog-card-tags">${tagsHtml}</div>
       </div>
     `;
     card.addEventListener('click', () => showSingleRepositorio(post));
@@ -103,27 +115,27 @@ function showSingleRepositorio(post) {
 
   let linksHtml = '';
   if (post.colab || post.github || post.link_projeto) {
-    linksHtml += `<div class="post-links-container" style="margin-top: 30px; border-top: 1px dashed var(--border); padding-top: 20px; display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap;">`;
+    linksHtml += `<div class="post-links-container">`;
     if (post.link_projeto) {
       linksHtml += `
-        <a href="${escapeHTML(post.link_projeto)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
-          <i class="ph ph-arrow-square-out" style="font-size: 1.2rem;"></i>
+        <a href="${escapeHTML(post.link_projeto)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <i class="ph ph-arrow-square-out"></i>
           [Acessar Projeto]
         </a>
       `;
     }
     if (post.colab) {
       linksHtml += `
-        <a href="${escapeHTML(post.colab)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 8px;">
-          <i class="ph ph-play-circle" style="font-size: 1.2rem;"></i>
+        <a href="${escapeHTML(post.colab)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          <i class="ph ph-play-circle"></i>
           [Rodar no Google Colab]
         </a>
       `;
     }
     if (post.github) {
       linksHtml += `
-        <a href="${escapeHTML(post.github)}" target="_blank" rel="noopener noreferrer" class="btn" style="display: inline-flex; align-items: center; gap: 8px;">
-          <i class="ph ph-github-logo" style="font-size: 1.2rem;"></i>
+        <a href="${escapeHTML(post.github)}" target="_blank" rel="noopener noreferrer" class="btn">
+          <i class="ph ph-github-logo"></i>
           [Código no GitHub]
         </a>
       `;
@@ -134,8 +146,8 @@ function showSingleRepositorio(post) {
   // Exibe cabeçalhos padrão para artigos
   if (repositorioHeaderData) {
     repositorioHeaderData.style.display = 'block';
-    const tagsHtml = (post.tags || []).map(t => `<span class="blog-card-tag" style="color: var(--primary); font-weight: bold; margin-left: 10px;">#${escapeHTML(t)}</span>`).join('');
-    repositorioHeaderData.innerHTML = escapeHTML(post.data) + tagsHtml;
+    const tagsHtml = (post.tags || []).map(t => `<span class="blog-card-tag">[#${escapeHTML(t)}]</span>`).join('');
+    repositorioHeaderData.innerHTML = `<span class="post-date">${escapeHTML(post.data)}</span><span class="repositorio-header-tags">${tagsHtml}</span>`;
   }
   if (repositorioTitle) {
     repositorioTitle.style.display = 'block';
@@ -148,6 +160,9 @@ function showSingleRepositorio(post) {
 }
 
 export function initRepos() {
+  // Expõe para o botão de retry funcionar
+  window.loadRepos = loadRepos;
+
   const toggleTagsBtn = document.getElementById('toggle-tags-btn');
   const tagsFilters = document.getElementById('repositorios-tags-filters');
   if (toggleTagsBtn && tagsFilters) {

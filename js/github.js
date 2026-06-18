@@ -8,6 +8,12 @@ export async function loadGithubContributions() {
 
   if (!githubGraph) return;
 
+  // Estado de loading
+  githubGraph.setAttribute('aria-busy', 'true');
+  githubGraph.setAttribute('aria-live', 'polite');
+  githubGraph.innerHTML = `<span class="mono-text github-loading-message">Carregando contribuições...</span>`;
+  if (githubTotalCommits) githubTotalCommits.innerText = '';
+
   if (!githubGraph.dataset.delegated) {
     githubGraph.addEventListener('mouseover', (e) => {
       const cell = e.target.closest('.github-cell');
@@ -88,6 +94,7 @@ export async function loadGithubContributions() {
 
     githubGraph.innerHTML = '';
     githubGraph.appendChild(fragment);
+    githubGraph.removeAttribute('aria-busy');
     
     if (monthsContainer) {
       monthsContainer.innerHTML = '';
@@ -100,7 +107,13 @@ export async function loadGithubContributions() {
 
   } catch (err) {
     console.error("Falha ao carregar GitHub:", err);
-    githubGraph.innerHTML = `<span class="mono-text github-error-message">Erro ao carregar contribuições de ${escapeHTML(GITHUB_USERNAME)}.</span>`;
+    githubGraph.removeAttribute('aria-busy');
+    githubGraph.innerHTML = `
+      <div class="github-error-state">
+        <span class="mono-text">× Falha ao carregar contribuições de ${escapeHTML(GITHUB_USERNAME)}.</span>
+        <button class="btn" onclick="window.loadGithubContributions()" style="margin-top: 12px;">[Tentar novamente]</button>
+      </div>
+    `;
   }
 }
 

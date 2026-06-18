@@ -12,6 +12,23 @@ section {
   border-bottom: none;
 }
 
+/* Ritmo visual - Variação de espaçamento entre seções */
+.hero-section {
+  padding: 120px 0 90px 0;
+}
+
+.stack-section {
+  padding: 70px 0;
+}
+
+.about-section {
+  padding: 90px 0;
+}
+
+.projects-section {
+  padding: 90px 0;
+}
+
 /* Cards Técnicos - Estilo Catálogo de Duas Colunas (Sem Caixas) */
 .technical-card {
   background: transparent;
@@ -53,17 +70,27 @@ section {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   border-radius: var(--radius);
-  transition: var(--transition-fast);
+  transition: background var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast),
+              transform var(--transition-fast),
+              opacity var(--transition-fast);
   text-decoration: none;
+  transform: translateY(0);
 }
 
 .btn:hover {
   background: var(--muted);
   color: var(--foreground);
   border-color: var(--muted-foreground);
+  transform: translateY(-1px);
 }
 
-/* Variantes para Destaques */
+.btn:active {
+  transform: translateY(1px);
+  opacity: 0.85;
+}
+
 .btn-primary {
   background: var(--primary);
   color: var(--primary-foreground);
@@ -102,12 +129,13 @@ section {
 
 /* Títulos Limpos e Firmes */
 .section-title {
-  font-family: var(--font-sans);
-  font-size: 1.8rem;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
   font-weight: 700;
+  line-height: 1.1;
   margin-bottom: 24px;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.06em; /* Uppercase condensado precisa de tracking */
 }
 
 .section-title span {
@@ -162,7 +190,8 @@ nav {
   text-decoration: none;
 }
 
-.nav-tab-btn:hover, .nav-tab-btn.active {
+.nav-tab-btn:hover,
+.nav-tab-btn.active {
   color: var(--foreground);
   background: var(--muted);
 }
@@ -217,8 +246,11 @@ nav {
 }
 
 .contact-box h2 {
-  font-family: var(--font-sans);
-  font-size: 1.6rem;
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
   margin-bottom: 12px;
 }
 
@@ -233,6 +265,7 @@ nav {
   gap: 24px;
   flex-wrap: wrap;
 }
+
 .contact-items i {
   font-size: 1.2rem;
   display: inline-flex;
@@ -286,6 +319,21 @@ footer {
   nav.active {
     transform: translateX(0);
     visibility: visible;
+  }
+
+  /* Backdrop para fechar menu ao clicar fora */
+  .nav-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: transparent;
+    cursor: default;
+  }
+
+  nav.active ~ .nav-backdrop,
+  .nav-backdrop.active {
+    display: block;
   }
 
   .nav-tab-btn {

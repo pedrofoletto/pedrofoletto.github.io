@@ -1,0 +1,12 @@
+{
+  "files": ["index.html"],
+  "insertBefore": "</body>",
+  "commentSyntax": "html",
+  "framework": "vite-spa",
+  "devServer": {
+    "command": "npm run dev",
+    "port": 5173,
+    "url": "http://localhost:5173"
+  },
+  "cspChecked": true
+}

@@ -3,7 +3,28 @@ const tabContents = document.querySelectorAll('.tab-content');
 
 const menuToggle = document.getElementById('menu-toggle');
 const navbar = document.getElementById('navbar');
+const navBackdrop = document.getElementById('nav-backdrop');
 const toggleIcon = menuToggle ? menuToggle.querySelector('i') : null;
+
+function openMenu() {
+  navbar.classList.add('active');
+  if (navBackdrop) navBackdrop.classList.add('active');
+  if (menuToggle) {
+    menuToggle.setAttribute('aria-expanded', 'true');
+    menuToggle.setAttribute('aria-label', 'Fechar Menu');
+  }
+  if (toggleIcon) toggleIcon.className = 'ph ph-x';
+}
+
+function closeMenu() {
+  navbar.classList.remove('active');
+  if (navBackdrop) navBackdrop.classList.remove('active');
+  if (menuToggle) {
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Abrir Menu');
+  }
+  if (toggleIcon) toggleIcon.className = 'ph ph-list';
+}
 
 export function switchTab(tabId, avoidRouting = false) {
   tabContents.forEach(content => content.classList.remove('active-tab'));
@@ -24,14 +45,7 @@ export function switchTab(tabId, avoidRouting = false) {
   }
 
   if (navbar && navbar.classList.contains('active')) {
-    navbar.classList.remove('active');
-    if (menuToggle) {
-      menuToggle.setAttribute('aria-expanded', 'false');
-      menuToggle.setAttribute('aria-label', 'Abrir Menu');
-    }
-    if (toggleIcon) {
-      toggleIcon.className = 'ph ph-list';
-    }
+    closeMenu();
   }
 
   if (!avoidRouting) {
@@ -77,10 +91,26 @@ export function initTabs() {
 
   if (menuToggle && navbar && toggleIcon) {
     menuToggle.addEventListener('click', () => {
-      const isActive = navbar.classList.toggle('active');
-      menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-      menuToggle.setAttribute('aria-label', isActive ? 'Fechar Menu' : 'Abrir Menu');
-      toggleIcon.className = isActive ? 'ph ph-x' : 'ph ph-list';
+      const isActive = navbar.classList.contains('active');
+      if (isActive) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    // Fecha ao clicar no backdrop
+    if (navBackdrop) {
+      navBackdrop.addEventListener('click', closeMenu);
+    }
+
+    // Fecha ao pressionar Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'Esc') {
+        if (navbar.classList.contains('active')) {
+          closeMenu();
+        }
+      }
     });
 
     let touchStartX = 0;
@@ -100,15 +130,9 @@ export function initTabs() {
       
       if (Math.abs(diffX) > Math.abs(diffY)) {
         if (diffX < -50 && touchStartX > window.innerWidth - 60) {
-          if (!navbar.classList.contains('active')) {
-            navbar.classList.add('active');
-            toggleIcon.className = 'ph ph-x';
-          }
+          if (!navbar.classList.contains('active')) openMenu();
         } else if (diffX > 50) {
-          if (navbar.classList.contains('active')) {
-            navbar.classList.remove('active');
-            toggleIcon.className = 'ph ph-list';
-          }
+          if (navbar.classList.contains('active')) closeMenu();
         }
       }
     }, { passive: true });
