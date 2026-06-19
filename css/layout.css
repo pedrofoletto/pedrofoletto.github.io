@@ -192,12 +192,16 @@ nav {
 
 .nav-tab-btn:hover {
   color: var(--foreground);
-  background: var(--muted);
+  background: none;
 }
 
 .nav-tab-btn.active {
   color: var(--foreground);
   background: none;
+}
+
+.nav-tab-btn:focus {
+  outline: none;
 }
 
 /* Botão Alternador de Tema */
@@ -383,7 +387,7 @@ footer {
   }
 
   .nav-tab-btn.active {
-    background: var(--muted);
+    background: none;
     color: var(--primary);
     border-bottom-color: var(--primary);
   }
